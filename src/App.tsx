@@ -1,11 +1,11 @@
-import CommonHeader from './components/Header/Header';
+import Header from './components/Header/Header';
 import Navigation from './components/Navigation/Navigation';
 import styled from 'styled-components';
 
 function App() {
   return (
     <AppContainer>
-      <CommonHeader />
+      <Header />
       <Navigation />
     </AppContainer>
   );
