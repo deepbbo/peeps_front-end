@@ -1,10 +1,11 @@
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Navigation = () => {
   return (
     <Nav>
-      <ul>
+      <NavList>
         <li>
           <NavLink to="/map">지도</NavLink>
         </li>
@@ -17,7 +18,7 @@ const Navigation = () => {
         <li>
           <NavLink to="/my">마이페이지</NavLink>
         </li>
-      </ul>
+      </NavList>
     </Nav>
   );
 };
@@ -33,4 +34,8 @@ const Nav = styled.nav`
   background: #fefcd9;
   padding: 6px 15px 30px 15px;
   box-sizing: border-box;
+`;
+
+const NavList = styled.ul`
+  display: flex;
 `;
