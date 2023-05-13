@@ -1,4 +1,43 @@
+.App-container {
+  width: 100%;
+  max-width: 1024px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: aliceblue;
+}
+
+.home-left-area {
+  width: 100%;
+  max-width: 512px;
+  height: 380px;
+  background-color: rgb(221, 235, 247);
+}
+
 .App {
   width: 100%;
   height: 100vh;
+  max-width: 425px;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+/* media query */
+@media only screen and (min-width: 1024px) {
+  .App-container {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 1023px) {
+  .home-left-area {
+    display: none;
+  }
+
+  .App-container {
+    justify-content: center;
+    align-items: center;
+  }
 }
