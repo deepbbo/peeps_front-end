@@ -1,15 +1,13 @@
-import React from 'react';
 import GlobalStyle from './GlobalStyle';
 import Map from './map/map';
-import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
+    <div>
       <GlobalStyle />
-      <Map />
+      <Map></Map>
     </div>
   );
-}
+};
 
 export default App;
