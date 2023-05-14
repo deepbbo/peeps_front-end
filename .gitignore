@@ -5,6 +5,13 @@
 /.pnp
 .pnp.js
 
+# ignore package-lock.json and yarn.lock
+package-lock.json
+yarn.lock
+
+# ignore .env file
+.env
+
 # testing
 /coverage
 
