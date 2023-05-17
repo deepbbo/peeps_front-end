@@ -1,33 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
-import styles from "./PostPage.module.css";
-import { Link, Outlet } from 'react-router-dom';
+import axios from 'axios';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { PostTypes } from './types/types';
 
-// console.log("피드")
 const PostFeed = () => {
-    const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<PostTypes | any>([]);
 
-    const postsUrl = "http://localhost:9999/posts";
+  const postsUrl = 'http://localhost:9999/posts';
 
-    useEffect(() => {
+  useEffect(() => {
     (async () => {
       const response = await axios.get(postsUrl);
       const data = response.data;
+      console.log('Data:', data);
       setPosts([...posts, ...data]);
     })();
   }, []);
 
-    return <>
-    <div className={styles.peeps}>
-        <ul>
-        {posts.map((post) => (
-            <li key={post.id}>
-                <Link to={`/posts/${post.id}`}>{post.title}</Link>
-            </li>
+  return (
+    <>
+      <Contents>
+        {posts.map((post: PostTypes) => (
+          <div key={post.id}>
+            <Link to={`/posts/${post.id}`}>{post.title}</Link>
+          </div>
         ))}
-        </ul>
-    </div>
-    </>;
-}
+      </Contents>
+    </>
+  );
+};
 
 export default PostFeed;
+
+const Contents = styled.div`
+  min-width: 375px;
+  max-width: 425px;
+  position: absolute;
+  background-color: #ffffff;
+  border: solid #979797;
+`;

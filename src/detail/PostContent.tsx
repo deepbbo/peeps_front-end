@@ -1,15 +1,23 @@
-import React from "react";
-import styles from "./PostContent.module.css";
+import React from 'react';
+import styled from 'styled-components';
 
-function PostContent({text}){
+interface T {
+  text: string;
+}
+function PostContent({ text }: T) {
+  // const [content, setContent] = useState();
 
-    // const [content, setContent] = useState();
-    
-    return <>
-    <div className={styles.post_body}>
-        {text}
-    </div>
+  return (
+    <>
+      <PostBody>{text}</PostBody>
     </>
+  );
 }
 
 export default PostContent;
+
+const PostBody = styled.div`
+  margin: 10px;
+  min-height: 400px;
+  border-bottom: 1px solid;
+`;
