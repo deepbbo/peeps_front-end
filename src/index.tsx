@@ -5,8 +5,9 @@ import App from './App';
 import ResetStyle from './ResetStyle';
 import reportWebVitals from './reportWebVitals';
 
-// eslint-disable-next-line prettier/prettier
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
 root.render(
   <React.StrictMode>
     <ResetStyle />

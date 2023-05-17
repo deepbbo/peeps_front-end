@@ -1,0 +1,19 @@
+{
+  "review": [
+    {
+      "review_id": "0",
+      "user_id": "012",
+      "review_content": "(동물병원에 관련된 리뷰 내용)"
+    },
+    {
+      "review_id": "1",
+      "user_id": "523",
+      "review_content": "(동물병원에 관련된 리뷰 내용)"
+    },
+    {
+      "review_id": "2",
+      "user_id": "634",
+      "review_content": "(동물병원에 관련된 리뷰 내용)"
+    }
+  ]
+}

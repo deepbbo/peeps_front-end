@@ -22,7 +22,8 @@ const Navigation = () => {
     <Nav>
       <NavList>
         <li>
-          <NavLink to="/map" onClick={() => handleNavClick(0)}>
+          {/* 확인 위해 map 대신 review로 연결 */}
+          <NavLink to="/review" onClick={() => handleNavClick(0)}>
             <img
               src={activeIndex === 0 ? iconNav1Active : iconNav1}
               alt="지도"
