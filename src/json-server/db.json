@@ -1,0 +1,44 @@
+{
+    "posts":[{ "id": 1,
+        "title": "냥이가 냉장고에서 그냥 뛰어내려요",
+        "user_nickname": "김쪼푸", 
+        "profileImg": "${process.env.PUBLIC_URL}/icon/profile.svg",
+        "date": "2022-05-01 16:07",
+        "category": "일상",
+        "text": "하.. 식탁도 있고 일부러 의자도 밑에 놔뒀는데 제가 안본사이에 그냥 냉장고에서 바로 뛰어내리네요 환장하겠네요ㅠ"
+      },
+      { "id": 2,
+        "title": "낮에 밥을 안먹어요..",
+        "user_nickname": "챙챙채연", 
+        "profileImg": "${process.env.PUBLIC_URL}/icon/profile.svg",
+        "date": "2022-05-01 16:07",
+        "category": "일상",
+        "text": "저녁~새벽에는 엄청 맛있게먹어요 그래서 낮에 공복이 길고 어제도 공복토 했는데ㅠㅠ이럴때는 어떻게해야하나요..? 손으로 줘도 안먹고 막 도망가요..;;간식이라도 뜯어서 먹여야할까요"
+      },
+      { "id": 3,
+        "title": "퓨리나 일일절 하네요",
+        "user_nickname": "윤자킴", 
+        "profileImg": "${process.env.PUBLIC_URL}/icon/profile.svg",
+        "date": "2022-05-01 16:07",
+        "category": "정보공유",
+        "text": "저는 파티믹스랑 팬피샀어요~ 늘 잘먹어서 좋아요"
+      }
+    ],
+    "comments": [
+    { "id": 1, "user_nickname": "블루냥", 
+        "profileImg":"${process.env.PUBLIC_URL}/icon/profile.svg", 
+        "text": "바닥에 넓은 매트를 까는 건 어떨까요?", 
+        "date": "2022-05-01 16:12", 
+        "postId":1 },
+    { "id": 2, "user_nickname": "쀼쀼", 
+      "profileImg":"${process.env.PUBLIC_URL}/icon/profile.svg",
+      "text": "고양이는 그정도 높이는 가뿐해야 정상인데 착지할때 안미끌어지도록 아래 뭐라도 깔아주세요",
+      "date": "2022-05-02 16:20",
+      "postId":1 }
+    ],
+    "profile": [
+        {"id":1, "user_nickname":"김쪼푸"},
+        {"id":2, "user_nickname":"챙챙채연"},
+        {"id":3, "user_nickname":"윤자킴"}
+    ]
+}
