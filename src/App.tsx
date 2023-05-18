@@ -1,8 +1,6 @@
-import React from 'react';
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
-// import GlobalStyle from './GlobalStyle';
-import Map from './map/map';
+import SearchPlace from './components/map/SearchPlace';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 
@@ -10,6 +8,7 @@ const App = () => {
   return (
     <AppContainer>
       <Header />
+      <SearchPlace></SearchPlace>
       <Router>
         <Navigation />
         <Routes>
@@ -20,7 +19,6 @@ const App = () => {
           <Route path="/my" />
         </Routes>
       </Router>
-      <Map></Map>
     </AppContainer>
   );
 };
