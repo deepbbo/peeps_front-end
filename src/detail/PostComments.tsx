@@ -19,14 +19,14 @@ function PostComments({ post_id }: T) {
       const data = response.data.filter(
         (comment: CommentTypes | any) => comment.postId === post_id
       );
-      setComments([...comments, data]);
+      setComments([...comments, ...data]);
     })();
   }, []);
   return (
     <>
       <div>
         <CommentHeader>
-          <span>댓글 N</span>
+          <span>댓글 {comments.length}</span>
         </CommentHeader>
         <div>
           {comments.map((comment: CommentTypes) => (
