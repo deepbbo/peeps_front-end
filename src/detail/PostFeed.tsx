@@ -7,13 +7,12 @@ import { PostTypes } from './types/types';
 const PostFeed = () => {
   const [posts, setPosts] = useState<PostTypes | any>([]);
 
-  const postsUrl = 'http://localhost:9999/posts';
+  const postsUrl = 'http://localhost:9999/board';
 
   useEffect(() => {
     (async () => {
       const response = await axios.get(postsUrl);
       const data = response.data;
-      console.log('Data:', data);
       setPosts([...posts, ...data]);
     })();
   }, []);
@@ -23,7 +22,7 @@ const PostFeed = () => {
       <Contents>
         {posts.map((post: PostTypes) => (
           <div key={post.id}>
-            <Link to={`/posts/${post.id}`}>{post.title}</Link>
+            <Link to={`/board/${post.id}`}>{post.title}</Link>
           </div>
         ))}
       </Contents>
@@ -34,9 +33,11 @@ const PostFeed = () => {
 export default PostFeed;
 
 const Contents = styled.div`
-  min-width: 375px;
-  max-width: 425px;
+  // min-width: 375px;
+  // max-width: 425px;
+  width: 100%;
+  height: calc(100vh - 156px);
   position: absolute;
   background-color: #ffffff;
-  border: solid #979797;
+  // border: solid 1px #979797;
 `;

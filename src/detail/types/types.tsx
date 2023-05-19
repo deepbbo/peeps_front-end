@@ -7,3 +7,11 @@ export interface PostTypes {
   category: string;
   text: string;
 }
+
+export interface CommentTypes {
+  id: number;
+  text: string;
+  date: string;
+  postId: number;
+  user_nickname: string;
+}
