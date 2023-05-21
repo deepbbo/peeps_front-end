@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MapContainer from './MapContainer';
 
 const SearchPlace: React.FC = () => {
-  const [place, setPlace] = useState<string>('동물병원');
+  const [place, setPlace] = useState<string>('');
 
   const handleClick = (e: MouseEvent<HTMLInputElement>) => {
     const text = e.currentTarget.textContent || '';

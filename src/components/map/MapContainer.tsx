@@ -56,6 +56,8 @@ const MapContainer: React.FC<MapContainerProps> = ({ searchPlace }) => {
       } else {
         // Geolocation을 지원하지 않는 경우의 처리
         console.error('Geolocation is not supported.');
+        // 기본 위치를 기준으로 검색 실행
+        searchPlaces(options.center);
       }
 
       function searchPlaces(center: any) {
@@ -118,12 +120,6 @@ const MapContainer: React.FC<MapContainerProps> = ({ searchPlace }) => {
         // 마커 지도에 추가
         marker.setMap(map);
       }
-
-      // 검색 실행
-      if (searchPlace) {
-        // 현재 위치를 기준으로 키워드를 검색
-        searchPlaces(map.getCenter());
-      }
     };
 
     // Kakao 지도 API 스크립트 로드
@@ -157,7 +153,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ searchPlace }) => {
     };
   }, [searchPlace]);
 
-  return <div id="myMap" style={{ width: '100%', height: '500px' }}></div>;
+  return <div id="myMap" style={{ width: '100%', height: '400px' }}></div>;
 };
 
 export default MapContainer;
