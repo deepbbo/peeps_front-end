@@ -3,22 +3,25 @@ import Header from './components/Header';
 import Navigation from './components/Navigation';
 import styled from 'styled-components';
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
-import Review from './review/Review';
+import ReviewList from './review/ReviewList';
+import ReviewWrite from './review/ReviewWrite';
+import ReviewDetail from './review/ReviewDetail';
 
 function App() {
   return (
     <AppContainer>
       <Header />
       <Router>
-        <Navigation />
         <Routes>
           {/* element로 컴포넌트 연결 필요 */}
-          {/* 확인 위해 map 대신 review로 연결 */}
-          <Route path="/review" element={<Review placeId={0} />} />
+          <Route path="/api/v1/review/:location_id" element={<ReviewList />} />
+          <Route path="/api/v1/review" element={<ReviewWrite />} />
+          <Route path="/api/v1/review/:review_id" element={<ReviewDetail />} />
           <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
         </Routes>
+        <Navigation />
       </Router>
     </AppContainer>
   );
