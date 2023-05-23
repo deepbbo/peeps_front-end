@@ -4,6 +4,8 @@ import './index.css';
 import App from './App';
 import ResetStyle from './ResetStyle';
 import reportWebVitals from './reportWebVitals';
+import store from './redux/store';
+import { Provider } from 'react-redux';
 
 // eslint-disable-next-line prettier/prettier
 const root = ReactDOM.createRoot(
@@ -15,7 +17,9 @@ root.render(
     <ResetStyle />
     <div className="wrap">
       <div className="home-left-area">Peeps</div>
-      <App />
+      <Provider store={store}>
+        <App />
+      </Provider>
     </div>
   </React.StrictMode>
 );

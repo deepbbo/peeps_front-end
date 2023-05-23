@@ -1,6 +1,6 @@
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
-import SearchPlace from './components/map/SearchPlace';
+import MapContainer from './components/map/MapContainer';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
 
@@ -8,7 +8,7 @@ const App = () => {
   return (
     <AppContainer>
       <Header />
-      <SearchPlace></SearchPlace>
+      <MapContainer />
       <Router>
         <Navigation />
         <Routes>

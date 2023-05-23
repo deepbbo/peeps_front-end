@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import style from 'styled-components';
 
 declare global {
   interface Window {
@@ -6,154 +7,230 @@ declare global {
   }
 }
 
-interface Place {
-  x: number;
-  y: number;
-  place_name: string;
-}
-
-interface Marker {
-  position: {
-    lat: number;
-    lng: number;
-  };
-  content: string;
-}
-
-interface MapContainerProps {
-  searchPlace: string;
-}
-
-const MapContainer: React.FC<MapContainerProps> = ({ searchPlace }) => {
-  const [markers, setMarkers] = useState<Marker[]>([]);
+const MapContainer: React.FC = () => {
+  const [map, setMap] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [markers, setMarkers] = useState<any[]>([]);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
 
   useEffect(() => {
-    const initializeMap = () => {
-      const container = document.getElementById('myMap');
-      const options = {
-        center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3
+    const loadMap = () => {
+      const script = document.createElement('script');
+      script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_API_KEY}&libraries=services&autoload=false`;
+      script.onload = () => {
+        window.kakao.maps.load(() => {
+          const container = document.getElementById('map');
+          const options = {
+            center: new window.kakao.maps.LatLng(37.5665, 126.978),
+            level: 5
+          };
+          const newMap = new window.kakao.maps.Map(container, options);
+
+          // 유저의 위치 정보 받아오기
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              position => {
+                const userLatLng = new window.kakao.maps.LatLng(
+                  position.coords.latitude,
+                  position.coords.longitude
+                );
+
+                newMap.setCenter(userLatLng);
+              },
+              error => {
+                // 위치 정보를 받아오지 못할 경우의 처리
+                console.error(error);
+              }
+            );
+          } else {
+            // Geolocation을 지원하지 않는 경우의 처리
+            console.error('위치 정보를 가져올 수 없습니다.');
+          }
+          setMap(newMap); // map 상태 업데이트
+        });
       };
-      const map = new window.kakao.maps.Map(container, options);
 
-      // 유저의 위치 정보 받아오기
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          position => {
-            const userLatLng = new window.kakao.maps.LatLng(
-              position.coords.latitude,
-              position.coords.longitude
-            );
+      document.body.appendChild(script);
+    };
 
-            map.setCenter(userLatLng);
-            searchPlaces(userLatLng);
-          },
-          error => {
-            // 위치 정보를 받아오지 못할 경우의 처리
-            console.error(error);
-          }
-        );
-      } else {
-        // Geolocation을 지원하지 않는 경우의 처리
-        console.error('Geolocation is not supported.');
-        // 기본 위치를 기준으로 검색 실행
-        searchPlaces(options.center);
-      }
+    loadMap();
+  }, []);
 
-      function searchPlaces(center: any) {
-        const ps = new window.kakao.maps.services.Places();
-
-        ps.keywordSearch(searchPlace, placesSearchCB, {
-          location: center,
-          radius: 10000 // 10km를 미터로 표현
-        });
-      }
-
-      function placesSearchCB(data: Place[], status: string, _pagination: any) {
-        if (status === window.kakao.maps.services.Status.OK) {
-          const bounds = new window.kakao.maps.LatLngBounds();
-          const markers: Marker[] = [];
-
-          for (let i = 0; i < data.length; i++) {
-            const place = data[i];
-            console.log(place);
-            const markerPosition = {
-              lat: place.y,
-              lng: place.x
-            };
-            markers.push({
-              position: markerPosition,
-              content: place.place_name
-            });
-            bounds.extend(
-              new window.kakao.maps.LatLng(
-                markerPosition.lat,
-                markerPosition.lng
-              )
-            );
-
-            displayMarker(place);
-          }
-
-          setMarkers(markers);
-          map.setBounds(bounds);
-        }
-      }
-
-      function displayMarker(place: Place) {
-        const infowindow = new window.kakao.maps.InfoWindow({ zIndex: 1 });
-        const marker = new window.kakao.maps.Marker({
-          position: new window.kakao.maps.LatLng(place.y, place.x)
-        });
-
-        // 마커에 클릭 이벤트 등록
-        window.kakao.maps.event.addListener(marker, 'click', function () {
-          // 마커를 클릭하면 장소명이 인포윈도우에 표출
-          infowindow.setContent(
-            '<div style="padding:5px;font-size:12px;">' +
-              place.place_name +
-              '</div>'
+  const handleReturnToCurrentLocation = () => {
+    if (map && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const userLatLng = new window.kakao.maps.LatLng(
+            position.coords.latitude,
+            position.coords.longitude
           );
-          infowindow.open(map, marker);
-        });
 
-        // 마커 지도에 추가
-        marker.setMap(map);
-      }
-    };
+          map.setCenter(userLatLng);
+        },
+        error => {
+          console.error(error);
+        }
+      );
+    }
+  };
 
-    // Kakao 지도 API 스크립트 로드
-    const loadKakaoMapAPI = () => {
-      const existingScript = document.getElementById('kakaoMapScript');
-      if (!existingScript) {
-        const script = document.createElement('script');
-        script.id = 'kakaoMapScript';
-        script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.REACT_APP_KAKAO_API_KEY}&libraries=services&autoload=false`;
-        document.head.appendChild(script);
+  const handleSearch = (keyword: string) => {
+    if (map) {
+      const ps = new window.kakao.maps.services.Places();
 
-        // 스크립트 로드가 완료된 후에 initializeMap 함수 호출
-        script.onload = () => {
-          window.kakao.maps.load(() => {
-            initializeMap();
-          });
-        };
-      } else {
-        initializeMap();
-      }
-    };
+      const bounds = map.getBounds();
+      const ne = bounds.getNorthEast();
+      const sw = bounds.getSouthWest();
 
-    loadKakaoMapAPI();
+      const centerLng = (ne?.getLng() + sw?.getLng()) / 2;
+      const centerLat = (ne?.getLat() + sw?.getLat()) / 2;
 
-    return () => {
-      // 언마운트 시 스크립트 제거
-      const existingScript = document.getElementById('kakaoMapScript');
-      if (existingScript) {
-        document.head.removeChild(existingScript);
-      }
-    };
-  }, [searchPlace]);
+      const searchOptions = {
+        location: new window.kakao.maps.LatLng(centerLat, centerLng),
+        radius: 5000
+      };
 
-  return <div id="myMap" style={{ width: '100%', height: '400px' }}></div>;
+      ps.keywordSearch(
+        keyword,
+        (result: any, status: any) => {
+          if (status === window.kakao.maps.services.Status.OK) {
+            const places = result.filter((place: any) => {
+              const { x, y } = place;
+
+              return (
+                x >= sw?.getLng() &&
+                x <= ne?.getLng() &&
+                y >= sw?.getLat() &&
+                y <= ne?.getLat()
+              );
+            });
+
+            if (places.length > 0) {
+              const firstPlace = places[0];
+              const { x, y } = firstPlace;
+
+              const position = new window.kakao.maps.LatLng(y, x);
+
+              map.panTo(position);
+
+              markers.forEach((marker: any) => {
+                marker.setMap(null);
+              });
+
+              const newMarkers = places.map((place: any) => {
+                console.log(place);
+                const { x, y } = place;
+                const markerPosition = new window.kakao.maps.LatLng(y, x);
+                const marker = new window.kakao.maps.Marker({
+                  position: markerPosition
+                });
+
+                window.kakao.maps.event.addListener(marker, 'click', () => {
+                  handleMarkerClick(place);
+                });
+
+                marker.setMap(map);
+                return marker;
+              });
+
+              setMarkers(newMarkers);
+
+              // 마커가 1개 이상일 때 지도의 줌 레벨 조정
+              if (places.length > 1) {
+                const markerBounds = new window.kakao.maps.LatLngBounds();
+                places.forEach((place: any) => {
+                  markerBounds.extend(
+                    new window.kakao.maps.LatLng(place.y, place.x)
+                  );
+                });
+                map.setBounds(markerBounds);
+              }
+            } else {
+              setModalOpen(true);
+            }
+          } else {
+            console.error('장소 검색에 실패하였습니다.');
+          }
+        },
+        searchOptions
+      );
+    }
+  };
+
+  const handleMarkerClick = (place: any) => {
+    setSelectedPlace(place);
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setSelectedPlace(null);
+  };
+
+  const handleMapClick = (e: any) => {
+    if (e.target.closest('.modal-content')) {
+      return;
+    }
+    closeModal();
+  };
+
+  return (
+    <MapWrapper>
+      <div
+        id="map"
+        style={{ width: '100%', height: 'calc(100vh - 156px)' }}
+        // onClick={handleMapClick}
+      ></div>
+
+      <Buttons className="buttons">
+        <button onClick={() => handleSearch('동물병원')}>동물병원</button>
+        <button onClick={() => handleSearch('공원')}>공원</button>
+        <button onClick={handleReturnToCurrentLocation}>현재위치로</button>
+      </Buttons>
+
+      {modalOpen && selectedPlace && (
+        <Modal>
+          <div className="modal-content">
+            <h2>{selectedPlace.place_name}</h2>
+            <p>주소: {selectedPlace.address_name}</p>
+            {/* 필요한 장소 정보를 추가로 표시할 수 있습니다. */}
+            <button onClick={closeModal}>닫기</button>
+          </div>
+        </Modal>
+      )}
+    </MapWrapper>
+  );
 };
 
 export default MapContainer;
+
+const MapWrapper = style.div`
+  position: relative;
+`;
+
+const Buttons = style.div`  
+  position: absolute;
+  bottom: 50px;
+  right: 10px;
+  z-index: 1;
+
+  button {
+    margin-right: 10px;
+  }
+`;
+
+const Modal = style.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  top: 0;
+  left: 0;
+  z-index:1;
+  & .modal-content {
+    background-color: white;
+  }
+`;
