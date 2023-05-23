@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import ReviewPlace from './ReviewPlace';
 import { useParams, useNavigate } from 'react-router-dom';
-import moment from 'moment';
 import IconImgUpload from '../images/icon-upload-img.svg';
 import IconPreviewEmpty from '../images/icon-image-preview-empty.svg';
 
@@ -55,7 +54,6 @@ const ReviewWrite = () => {
 
     const formData = new FormData();
     // formData.append('user_id', user_id);
-    formData.append('created_at', moment().format('YYYY.MM.DD'));
     formData.append('review_content', textData);
     formData.append('review_img', imageData);
 
@@ -70,7 +68,6 @@ const ReviewWrite = () => {
         }
       );
       console.log(response);
-      // `/review/:${location_id}`
       navigate(`api/v1/review/${location_id}`);
     } catch (error) {
       console.error(error);
@@ -112,7 +109,6 @@ const ReviewWrite = () => {
               </label>
               <input
                 type="file"
-                multiple
                 accept="image/*"
                 id="image-input"
                 onChange={handleFileSave}
