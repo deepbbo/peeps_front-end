@@ -1,16 +1,17 @@
-import React from 'react';
+import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+import styled from 'styled-components';
+import MapContainer from './components/map/MapContainer';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
-import styled from 'styled-components';
-import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import ReviewList from './review/ReviewList';
 import ReviewWrite from './review/ReviewWrite';
 import ReviewDetail from './review/ReviewDetail';
 
-function App() {
+const App = () => {
   return (
     <AppContainer>
       <Header />
+      <MapContainer />
       <Router>
         <Routes>
           {/* element로 컴포넌트 연결 필요 */}
@@ -25,7 +26,7 @@ function App() {
       </Router>
     </AppContainer>
   );
-}
+};
 
 export default App;
 
