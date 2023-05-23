@@ -5,10 +5,9 @@ import iconWrite from '../images/icon-write-review.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-import star from '../images/icon-star.svg';
 
 interface ReviewType {
-  id: number;
+  review_id: number;
   created_at: number;
   user_nickname: string;
   user_pic: string;
@@ -24,7 +23,7 @@ const ReviewList = () => {
   useEffect(() => {
     (async () => {
       //  API 연결 후 ${location_id}로 변경
-      const reviewURL = `http://localhost:9999/reviews`;
+      const reviewURL = `http://localhost:5500/api/v1/review/${location_id}`;
       try {
         const response = await axios.get(reviewURL);
         setReviewData(response.data);
@@ -32,7 +31,7 @@ const ReviewList = () => {
         console.error(error);
       }
     })();
-  }, []);
+  }, [location_id]);
 
   if (!reviewData) {
     return <div>불러오는 중...</div>;
@@ -46,7 +45,7 @@ const ReviewList = () => {
         <h1>전체 리뷰</h1>
         <ul className="review-wrap">
           {reviewData.map((review: ReviewType) => (
-            <li className="review-box" key={review.id}>
+            <li className="review-box" key={review.review_id}>
               <div className="review-user">
                 <div className="user-content">
                   <div className="user-content-profile">
@@ -62,7 +61,7 @@ const ReviewList = () => {
                 </div>
               </div>
               <div className="review-content">
-                <Link to={`/review/detail/:${review.id}`}>
+                <Link to={`/review/:${review.review_id}`}>
                   <div className="review-content-pic">
                     {review.review_img && (
                       <img src={review.review_img} alt="리뷰 이미지" />
@@ -76,7 +75,7 @@ const ReviewList = () => {
         </ul>
       </ReviewContent>
 
-      <WriteButton to="/review/write/:user_id">
+      <WriteButton to="/api/v1/review">
         <img src={iconWrite} alt="리뷰 작성하기" />
       </WriteButton>
     </ReviewContainer>

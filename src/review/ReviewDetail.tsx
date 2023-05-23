@@ -7,7 +7,7 @@ import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
 
 interface ReviewType {
-  id: number;
+  review_id: number;
   created_at: number;
   user_nickname: string;
   user_pic: string;
@@ -17,13 +17,13 @@ interface ReviewType {
 }
 
 const ReviewDetail = () => {
-  const { id } = useParams();
+  const { review_id } = useParams();
   const [reviewDetail, setReviewDetail] = useState<ReviewType | null>(null);
 
   useEffect(() => {
     (async () => {
       //  API 연결 후 review/detail/${id}로 변경
-      const reviewURL = `http://localhost:9999/review_id`;
+      const reviewURL = `http://localhost:5500/api/v1/review/${review_id}`;
       try {
         const response = await axios.get(reviewURL);
         setReviewDetail(response.data);
@@ -31,7 +31,7 @@ const ReviewDetail = () => {
         console.error(error);
       }
     })();
-  }, [id]);
+  }, [review_id]);
 
   if (!reviewDetail) {
     return <div>불러오는 중...</div>;
@@ -43,7 +43,7 @@ const ReviewDetail = () => {
 
       <DetailContent>
         <h1>리뷰 상세</h1>
-        <div className="review-box" key={reviewDetail.id}>
+        <div className="review-box" key={reviewDetail.review_id}>
           {/* 중복 컴포넌트 */}
           <div className="review-user">
             <div className="user-content">
@@ -68,7 +68,7 @@ const ReviewDetail = () => {
         </div>
       </DetailContent>
 
-      <WriteButton to="/review/write/:user_id">
+      <WriteButton to="/api/v1/review">
         <img src={iconWrite} alt="리뷰 작성하기" />
       </WriteButton>
     </DetailContainer>

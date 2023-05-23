@@ -61,19 +61,17 @@ const ReviewWrite = () => {
 
     try {
       const response = await axios.post(
-        // ${location_id}로 변경
-        `http://localhost:9999/reviews`,
+        `http://localhost:5500/api/v1/review/${location_id}`,
         formData,
         {
           headers: {
-            // 'Content-Type': 'multipart/form-data'
-            'Content-Type': 'application/json'
+            'Content-Type': 'multipart/form-data'
           }
         }
       );
       console.log(response);
-      // `/review/location/:${location_id}`
-      navigate(`/review/location/:location_id`);
+      // `/review/:${location_id}`
+      navigate(`api/v1/review/${location_id}`);
     } catch (error) {
       console.error(error);
     }
