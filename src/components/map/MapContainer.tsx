@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { changePlace } from '../../redux/placeSlice';
 
 declare global {
   interface Window {
@@ -7,11 +9,21 @@ declare global {
   }
 }
 
+interface Place {
+  place_name: string;
+  category_name: string;
+  address_name: string;
+  phone: string;
+  x: number;
+  y: number;
+}
+
 const MapContainer: React.FC = () => {
+  const dispatch = useDispatch();
   const [map, setMap] = useState<any>(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [markers, setMarkers] = useState<any[]>([]);
-  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [markers, setMarkers] = useState<any>([]);
+  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
 
   useEffect(() => {
     const loadMap = () => {
@@ -138,7 +150,7 @@ const MapContainer: React.FC = () => {
               // 마커가 1개 이상일 때 지도의 줌 레벨 조정
               if (places.length > 1) {
                 const markerBounds = new window.kakao.maps.LatLngBounds();
-                places.forEach((place: any) => {
+                places.forEach((place: Place) => {
                   markerBounds.extend(
                     new window.kakao.maps.LatLng(place.y, place.x)
                   );
@@ -157,7 +169,7 @@ const MapContainer: React.FC = () => {
     }
   };
 
-  const handleMarkerClick = (place: any) => {
+  const handleMarkerClick = (place: Place) => {
     setSelectedPlace(place);
     setModalOpen(true);
   };
@@ -168,10 +180,18 @@ const MapContainer: React.FC = () => {
   };
 
   const handleMapClick = (e: any) => {
-    if (e.target.closest('.modal-content')) {
-      return;
-    }
-    closeModal();
+    if (selectedPlace) {
+      dispatch(
+        changePlace({
+          place_name: selectedPlace.place_name,
+          category_name: selectedPlace.category_name,
+          address_name: selectedPlace.address_name,
+          phone: selectedPlace.phone
+        })
+      );
+    } // changePlace 액션 디스패치하여 Redux의 place 값을 저장
+
+    window.location.href = '/review';
   };
 
   return (
@@ -179,7 +199,6 @@ const MapContainer: React.FC = () => {
       <div
         id="map"
         style={{ width: '100%', height: 'calc(100vh - 156px)' }}
-        // onClick={handleMapClick}
       ></div>
 
       <Buttons className="buttons">
@@ -189,11 +208,12 @@ const MapContainer: React.FC = () => {
       </Buttons>
 
       {modalOpen && selectedPlace && (
-        <Modal>
+        <Modal onClick={handleMapClick}>
           <div className="modal-content">
             <h2>{selectedPlace.place_name}</h2>
             <p>주소: {selectedPlace.address_name}</p>
-            {/* 필요한 장소 정보를 추가로 표시할 수 있습니다. */}
+            <p>카테고리: {selectedPlace.category_name}</p>
+            <p>전화번호: {selectedPlace.phone}</p>
             <button onClick={closeModal}>닫기</button>
           </div>
         </Modal>
