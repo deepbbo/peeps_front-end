@@ -8,12 +8,13 @@ import StarRating from './ReviewStarRating';
 
 interface ReviewType {
   review_id: number;
-  created_at: number;
+  created_at: string;
   user_nickname: string;
   user_pic: string;
   review_content: string;
   review_img: string;
   star_rating: number;
+  location_id: string;
 }
 
 const ReviewList = () => {
@@ -22,16 +23,27 @@ const ReviewList = () => {
 
   useEffect(() => {
     (async () => {
-      //  API 연결 후 ${location_id}로 변경
-      const reviewURL = `http://localhost:5500/api/v1/review/${location_id}`;
+      const reviewURL = `http://localhost:5500/api/v1/review/location/${location_id}`;
       try {
-        const response = await axios.get(reviewURL);
-        setReviewData(response.data);
+        const response = await axios.get(
+          reviewURL
+          //   , {
+          //   // body로 보낼 시 get말고 post로 보내야함. -킹동현
+          //   location_id: '5678'
+          // }
+        );
+        setReviewData(response.data.data);
+        console.log(reviewData);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, [location_id]);
+  }, []);
+
+  const getDate = (date: string) => {
+    const newDate: string = date.split('T')[0];
+    return newDate;
+  };
 
   if (!reviewData) {
     return <div>불러오는 중...</div>;
@@ -44,34 +56,37 @@ const ReviewList = () => {
       <ReviewContent>
         <h1>전체 리뷰</h1>
         <ul className="review-wrap">
-          {reviewData.map((review: ReviewType) => (
-            <li className="review-box" key={review.review_id}>
-              <div className="review-user">
-                <div className="user-content">
-                  <div className="user-content-profile">
-                    <img src={review.user_pic} alt="유저 프로필"></img>
+          {reviewData && //
+            reviewData.map((review: ReviewType) => (
+              <li className="review-box" key={review.review_id}>
+                <div className="review-user">
+                  <div className="user-content">
+                    <div className="user-content-profile">
+                      <img src={review.user_pic} alt="유저 프로필"></img>
+                    </div>
+                    <div className="user-content-info">
+                      <p>{review.user_nickname}</p>
+                      <p>{getDate(review.created_at)}</p>
+                    </div>
                   </div>
-                  <div className="user-content-info">
-                    <p>{review.user_nickname}</p>
-                    <p>{review.created_at}</p>
+                  <div className="user-rate">
+                    <StarRating rating={review.star_rating} />
                   </div>
                 </div>
-                <div className="user-rate">
-                  <StarRating rating={review.star_rating} />
+                <div className="review-content">
+                  <Link to={`/review/:${review.review_id}`}>
+                    <div className="review-content-pic">
+                      {review.review_img && (
+                        <img src={review.review_img} alt="리뷰 이미지" />
+                      )}
+                    </div>
+                    <p className="review-content-text">
+                      {review.review_content}
+                    </p>
+                  </Link>
                 </div>
-              </div>
-              <div className="review-content">
-                <Link to={`/review/:${review.review_id}`}>
-                  <div className="review-content-pic">
-                    {review.review_img && (
-                      <img src={review.review_img} alt="리뷰 이미지" />
-                    )}
-                  </div>
-                  <p className="review-content-text">{review.review_content}</p>
-                </Link>
-              </div>
-            </li>
-          ))}
+              </li>
+            ))}
         </ul>
       </ReviewContent>
 
