@@ -23,15 +23,10 @@ const ReviewList = () => {
 
   useEffect(() => {
     (async () => {
+      // const a = '5678';
       const reviewURL = `http://localhost:5500/api/v1/review/location/${location_id}`;
       try {
-        const response = await axios.get(
-          reviewURL
-          //   , {
-          //   // body로 보낼 시 get말고 post로 보내야함. -킹동현
-          //   location_id: '5678'
-          // }
-        );
+        const response = await axios.get(reviewURL);
         setReviewData(response.data.data);
         console.log(reviewData);
       } catch (error) {
@@ -55,39 +50,43 @@ const ReviewList = () => {
 
       <ReviewContent>
         <h1>전체 리뷰</h1>
-        <ul className="review-wrap">
-          {reviewData && //
-            reviewData.map((review: ReviewType) => (
-              <li className="review-box" key={review.review_id}>
-                <div className="review-user">
-                  <div className="user-content">
-                    <div className="user-content-profile">
-                      <img src={review.user_pic} alt="유저 프로필"></img>
+        {!reviewData ? (
+          <div>등록된 리뷰가 없습니다.</div>
+        ) : (
+          <ul className="review-wrap">
+            {reviewData &&
+              reviewData.map((review: ReviewType) => (
+                <li className="review-box" key={review.review_id}>
+                  <div className="review-user">
+                    <div className="user-content">
+                      <div className="user-content-profile">
+                        <img src={review.user_pic} alt="유저 프로필"></img>
+                      </div>
+                      <div className="user-content-info">
+                        <p>{review.user_nickname}</p>
+                        <p>{getDate(review.created_at)}</p>
+                      </div>
                     </div>
-                    <div className="user-content-info">
-                      <p>{review.user_nickname}</p>
-                      <p>{getDate(review.created_at)}</p>
+                    <div className="user-rate">
+                      <StarRating rating={review.star_rating} />
                     </div>
                   </div>
-                  <div className="user-rate">
-                    <StarRating rating={review.star_rating} />
+                  <div className="review-content">
+                    <Link to={`/api/v1/review/${review.review_id}`}>
+                      <div className="review-content-pic">
+                        {review.review_img && (
+                          <img src={review.review_img} alt="리뷰 이미지" />
+                        )}
+                      </div>
+                      <p className="review-content-text">
+                        {review.review_content}
+                      </p>
+                    </Link>
                   </div>
-                </div>
-                <div className="review-content">
-                  <Link to={`/review/:${review.review_id}`}>
-                    <div className="review-content-pic">
-                      {review.review_img && (
-                        <img src={review.review_img} alt="리뷰 이미지" />
-                      )}
-                    </div>
-                    <p className="review-content-text">
-                      {review.review_content}
-                    </p>
-                  </Link>
-                </div>
-              </li>
-            ))}
-        </ul>
+                </li>
+              ))}
+          </ul>
+        )}
       </ReviewContent>
 
       <WriteButton to="/api/v1/review">
