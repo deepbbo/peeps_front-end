@@ -11,11 +11,13 @@ const App = () => {
   return (
     <AppContainer>
       <Header />
-      <MapContainer />
       <Router>
         <Routes>
-          {/* element로 컴포넌트 연결 필요 */}
-          <Route path="/api/v1/review/:location_id" element={<ReviewList />} />
+          <Route path="/api/v1/map" element={<MapContainer />}></Route>
+          <Route
+            path="/api/v1/review/location/:location_id"
+            element={<ReviewList />}
+          />
           <Route path="/api/v1/review" element={<ReviewWrite />} />
           <Route path="/api/v1/review/:review_id" element={<ReviewDetail />} />
           <Route path="/board" />
