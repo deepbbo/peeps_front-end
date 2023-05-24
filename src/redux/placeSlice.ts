@@ -22,8 +22,9 @@ const placeSlice = createSlice({
   name: 'place',
   initialState,
   reducers: {
-    changePlace(state, action: PayloadAction<PlaceState['value']>) {
-      state.value = action.payload;
+    // 객체를 저장하기 위해선 이전의 값을 스프레드 문법으로 가져와야 한다! 에러 처리
+    changePlace: (state, action: PayloadAction<PlaceState['value']>) => {
+      state.value = { ...state.value, ...action.payload };
     }
   }
 });
