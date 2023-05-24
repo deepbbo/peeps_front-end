@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { changePlace } from '../../redux/placeSlice';
 
 declare global {
@@ -29,7 +29,7 @@ const MapContainer: React.FC = () => {
   // const [center, setCenter] = useState<any>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [markers, setMarkers] = useState<any>([]);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
 
   useEffect(() => {
     const loadMap = () => {
@@ -201,7 +201,7 @@ const MapContainer: React.FC = () => {
       );
     } // changePlace 액션 디스패치하여 Redux의 place 값을 저장
 
-    window.location.href = '/review';
+    window.location.href = `/api/v1/review/location/${selectedPlace.id}`;
   };
 
   return (

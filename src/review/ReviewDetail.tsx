@@ -17,13 +17,13 @@ interface ReviewType {
 }
 
 const ReviewDetail = () => {
-  const { review_id } = useParams();
+  // const { review_id } = useParams();
   const [reviewDetail, setReviewDetail] = useState<ReviewType | null>(null);
 
   useEffect(() => {
     (async () => {
-      //  API 연결 후 review/detail/${id}로 변경
-      const reviewURL = `http://localhost:5500/api/v1/review/${review_id}`;
+      const a = '19';
+      const reviewURL = `http://localhost:5500/api/v1/review/${a}`;
       try {
         const response = await axios.get(reviewURL);
         setReviewDetail(response.data);
@@ -31,7 +31,7 @@ const ReviewDetail = () => {
         console.error(error);
       }
     })();
-  }, [review_id]);
+  }, []);
 
   if (!reviewDetail) {
     return <div>불러오는 중...</div>;
@@ -56,7 +56,7 @@ const ReviewDetail = () => {
               </div>
             </div>
             <div className="user-rate">
-              <StarRating rating={reviewDetail.star_rating} />
+              {/* <StarRating rating={reviewDetail.star_rating} /> */}
             </div>
           </div>
           <div className="review-content">

@@ -22,8 +22,11 @@ const placeSlice = createSlice({
   name: 'place',
   initialState,
   reducers: {
-    changePlace(state, action: PayloadAction<PlaceState['value']>) {
-      state.value = action.payload;
+    changePlace: (state, action: PayloadAction<PlaceState['value']>) => {
+      state.value = {
+        ...state.value,
+        ...action.payload
+      };
     }
   }
 });
