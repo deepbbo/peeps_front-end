@@ -59,7 +59,7 @@ const ReviewWrite = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:5500/api/v1/review/${location_id}`,
+        `http://localhost:5500/api/v1/review/`,
         formData,
         {
           headers: {
@@ -68,7 +68,7 @@ const ReviewWrite = () => {
         }
       );
       console.log(response);
-      navigate(`api/v1/review/${location_id}`);
+      navigate(`api/v1/review/location/${location_id}`);
     } catch (error) {
       console.error(error);
     }
