@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import style from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { changePlace } from '../../redux/placeSlice';
+import { useNavigate } from 'react-router-dom';
 
 declare global {
   interface Window {
@@ -18,14 +19,19 @@ interface Place {
   y: number;
 }
 
+interface Center {
+  lat: number;
+  lng: number;
+}
+
 const MapContainer: React.FC = () => {
   const dispatch = useDispatch();
   const [map, setMap] = useState<any>(null);
+  // const [center, setCenter] = useState<any>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [markers, setMarkers] = useState<any>([]);
-  const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
-  const [center, setCenter] = useState<any>({ lat: 37.5665, lng: 126.978 });
-  const [address, setAddress] = useState<string>(''); // Added state for the address
+  const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadMap = () => {
@@ -61,6 +67,10 @@ const MapContainer: React.FC = () => {
             console.error('위치 정보를 가져올 수 없습니다.');
           }
           setMap(newMap); // map 상태 업데이트
+
+          // newMap.addListener('center_changed', () => {
+          //   // setCenter(map.getCenter());
+          // });
         });
       };
 
@@ -69,55 +79,6 @@ const MapContainer: React.FC = () => {
 
     loadMap();
   }, []);
-
-  useEffect(() => {
-    const handleCenterChanged = () => {
-      if (map) {
-        const bounds = map.getBounds();
-        const ne = bounds.getNorthEast();
-        const sw = bounds.getSouthWest();
-
-        const centerLng = (ne?.getLng() + sw?.getLng()) / 2;
-        const centerLat = (ne?.getLat() + sw?.getLat()) / 2;
-
-        setCenter({ lat: centerLat, lng: centerLng });
-        // console.log({ lat: centerLat, lng: centerLng });
-      }
-    };
-
-    if (map) {
-      map.addListener('center_changed', handleCenterChanged);
-    }
-
-    return () => {
-      if (map) {
-        map.removeListener('center_changed', handleCenterChanged);
-      }
-    };
-  }, [map]);
-
-  useEffect(() => {
-    console.log(center);
-    if (center && map) {
-      const geocoder = new window.kakao.maps.services.Geocoder();
-
-      const callback = (result: any, status: any) => {
-        if (status === window.kakao.maps.services.Status.OK) {
-          setAddress(result[0].address.address_name);
-        } else {
-          setAddress('');
-        }
-      };
-
-      geocoder.coord2RegionCode(center, callback);
-    }
-  }, [center, map]);
-
-  useEffect(() => {
-    console.log(address); // Log the address value
-
-    // Rest of the code...
-  }, [address]);
 
   const handleReturnToCurrentLocation = () => {
     if (map && navigator.geolocation) {
@@ -232,17 +193,11 @@ const MapContainer: React.FC = () => {
 
   const handleMapClick = (e: any) => {
     if (selectedPlace) {
-      dispatch(
-        changePlace({
-          place_name: selectedPlace.place_name,
-          category_name: selectedPlace.category_name,
-          address_name: selectedPlace.address_name,
-          phone: selectedPlace.phone
-        })
-      );
-    } // changePlace 액션 디스패치하여 Redux의 place 값을 저장
+      const { place_name, category_name, address_name, phone } = selectedPlace; // x와 y 제거
+      dispatch(changePlace({ place_name, category_name, address_name, phone })); // changePlace 액션 디스패치하여 Redux의 place 값을 저장
+    }
 
-    window.location.href = '/review';
+    navigate(`/api/v1/review/location/${selectedPlace.id}`);
   };
 
   return (
@@ -255,7 +210,6 @@ const MapContainer: React.FC = () => {
       <Buttons className="buttons">
         <button onClick={() => handleSearch('동물병원')}>동물병원</button>
         <button onClick={() => handleSearch('공원')}>공원</button>
-        <button onClick={() => handleSearch('애완미용')}>애완미용</button>
         <button onClick={handleReturnToCurrentLocation}>현재위치로</button>
       </Buttons>
 

@@ -1,34 +1,36 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface PlaceState {
-  value: {
-    place_name: string;
-    category_name: string;
-    address_name: string;
-    phone: string;
-  };
+interface Place {
+  place_name: string;
+  category_name: string;
+  address_name: string;
+  phone: string;
 }
 
-const initialState: PlaceState = {
-  value: {
-    place_name: '',
-    category_name: '',
-    address_name: '',
-    phone: ''
-  }
+const initialState: Place = {
+  place_name: '',
+  category_name: '',
+  address_name: '',
+  phone: ''
 };
 
 const placeSlice = createSlice({
   name: 'place',
   initialState,
   reducers: {
-    // 객체를 저장하기 위해선 이전의 값을 스프레드 문법으로 가져와야 한다! 에러 처리
-    changePlace: (state, action: PayloadAction<PlaceState['value']>) => {
-      state.value = { ...state.value, ...action.payload };
+    changePlace: (state, action: PayloadAction<Place>) => {
+      const { place_name, category_name, address_name, phone } = action.payload;
+      return {
+        ...state,
+        place_name,
+        category_name,
+        address_name,
+        phone
+      };
     }
   }
 });
 
 export const { changePlace } = placeSlice.actions;
 
-export default placeSlice;
+export default placeSlice.reducer; // reducer를 export해야 합니다.

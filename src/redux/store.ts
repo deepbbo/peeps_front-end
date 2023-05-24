@@ -4,7 +4,7 @@ import headerReducer from './headerSlice';
 
 const store = configureStore({
   reducer: {
-    place: placeReducer.reducer,
+    place: placeReducer,
     header: headerReducer.reducer
   }
 });
