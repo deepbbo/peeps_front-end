@@ -1,18 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import iconGoBack from '../images/icon-go-back.svg';
+import { useSelector } from 'react-redux';
 
 interface PlaceDataType {
   place_name: number;
-  category_group_name: string;
+  category_name: string;
   address_name: string;
   phone: string;
 }
 
 const ReviewPlace = () => {
-  const [placeData, setPlaceData] = useState<PlaceDataType[]>([]);
   const navigate = useNavigate();
+  const placeData = useSelector((state: any) => {
+    console.log(state);
+    return state.place;
+  });
 
   // 이전페이지로 이동
   const goBack = () => {
@@ -21,19 +25,18 @@ const ReviewPlace = () => {
 
   return (
     <PlaceInfo>
-      {/* 장소 정보 표시 */}
       <GoBackButton onClick={goBack}>
         <img src={iconGoBack} alt="뒤로 가기" />
       </GoBackButton>
 
-      {/* <div>
-          {placeData.place_name}
-          <span>{placeData.category_name}</span>
-        </div>
-        <div>
+      <div>
+        {placeData.place_name}
+        <span>{placeData.category_name}</span>
+      </div>
+      <div>
         {placeData.address_name}
         {placeData.phone}
-        </div> */}
+      </div>
     </PlaceInfo>
   );
 };
