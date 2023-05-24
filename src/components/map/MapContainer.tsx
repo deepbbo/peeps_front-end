@@ -18,9 +18,15 @@ interface Place {
   y: number;
 }
 
+interface Center {
+  lat: number;
+  lng: number;
+}
+
 const MapContainer: React.FC = () => {
   const dispatch = useDispatch();
   const [map, setMap] = useState<any>(null);
+  // const [center, setCenter] = useState<any>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [markers, setMarkers] = useState<any>([]);
   const [selectedPlace, setSelectedPlace] = useState<Place | null>(null);
@@ -59,6 +65,10 @@ const MapContainer: React.FC = () => {
             console.error('위치 정보를 가져올 수 없습니다.');
           }
           setMap(newMap); // map 상태 업데이트
+
+          // newMap.addListener('center_changed', () => {
+          //   // setCenter(map.getCenter());
+          // });
         });
       };
 
