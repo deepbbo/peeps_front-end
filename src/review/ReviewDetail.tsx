@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import iconWrite from '../images/icon-write-review.svg';
+// import iconWrite from '../images/icon-write-review.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
 
 interface ReviewType {
   review_id: number;
-  created_at: number;
+  created_at: string;
   user_nickname: string;
   user_pic: string;
   review_content: string;
@@ -17,21 +17,25 @@ interface ReviewType {
 }
 
 const ReviewDetail = () => {
-  // const { review_id } = useParams();
+  const { review_id } = useParams();
   const [reviewDetail, setReviewDetail] = useState<ReviewType | null>(null);
 
   useEffect(() => {
     (async () => {
-      const a = '19';
-      const reviewURL = `http://localhost:5500/api/v1/review/${a}`;
+      const reviewURL = `http://localhost:5500/api/v1/review/${review_id}`;
       try {
         const response = await axios.get(reviewURL);
-        setReviewDetail(response.data);
+        setReviewDetail(response.data.data);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
+  }, [review_id]);
+
+  const getDate = (date: string) => {
+    const newDate: string = date.split('T')[0];
+    return newDate;
+  };
 
   if (!reviewDetail) {
     return <div>불러오는 중...</div>;
@@ -52,11 +56,11 @@ const ReviewDetail = () => {
               </div>
               <div className="user-content-info">
                 <p>{reviewDetail.user_nickname}</p>
-                <p>{reviewDetail.created_at}</p>
+                <p>{getDate(reviewDetail.created_at)}</p>
               </div>
             </div>
             <div className="user-rate">
-              {/* <StarRating rating={reviewDetail.star_rating} /> */}
+              <StarRating rating={reviewDetail.star_rating} />
             </div>
           </div>
           <div className="review-content">
@@ -67,10 +71,10 @@ const ReviewDetail = () => {
           </div>
         </div>
       </DetailContent>
-
+      {/* 
       <WriteButton to="/api/v1/review">
         <img src={iconWrite} alt="리뷰 작성하기" />
-      </WriteButton>
+      </WriteButton> */}
     </DetailContainer>
   );
 };
