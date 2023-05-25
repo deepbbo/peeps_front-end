@@ -6,21 +6,12 @@ import iconEmpty from '../images/icon-review-empty.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-
-interface ReviewType {
-  review_id: number;
-  created_at: string;
-  user_nickname: string;
-  user_pic: string;
-  review_content: string;
-  review_img: string;
-  star_rating: number;
-  location_id: string;
-}
+import { ReviewType } from './ReviewType';
 
 const ReviewList = () => {
   const { location_id } = useParams();
   const [reviewData, setReviewData] = useState<ReviewType[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -29,7 +20,7 @@ const ReviewList = () => {
       try {
         const response = await axios.get(reviewURL);
         setReviewData(response.data.data);
-        console.log(reviewData);
+        setLoading(false);
       } catch (error) {
         console.error(error);
       }
@@ -41,7 +32,7 @@ const ReviewList = () => {
     return newDate;
   };
 
-  if (!reviewData) {
+  if (loading) {
     return <div>불러오는 중...</div>;
   }
 
@@ -93,7 +84,12 @@ const ReviewList = () => {
         )}
       </ReviewContent>
 
-      <WriteButton to="/api/v1/review">
+      <WriteButton
+        to={{
+          pathname: '/api/v1/review',
+          search: `?location_id=${location_id}`
+        }}
+      >
         <img src={iconWrite} alt="리뷰 작성하기" />
       </WriteButton>
     </ReviewContainer>

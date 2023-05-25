@@ -2,17 +2,20 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import ReviewPlace from './ReviewPlace';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import IconImgUpload from '../images/icon-upload-img.svg';
 import IconPreviewEmpty from '../images/icon-image-preview-empty.svg';
 
 const ReviewWrite = () => {
-  const { user_id } = useParams();
-  const { location_id } = useParams();
-  const navigate = useNavigate();
   const [textData, setTextData] = useState('');
-  const [imageData, setImageData] = useState('');
-  const [star, setStar] = useState(null);
+  const [imageData, setImageData] = useState<File[]>([]);
+  const [showImage, setShowImage] = useState(false);
+  const [starData, setStarData] = useState('5');
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const location_id = searchParams.get('location_id');
 
   // 리뷰 텍스트 업로드
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -30,10 +33,9 @@ const ReviewWrite = () => {
     const files = e.target.files; // 파일 리스트 가져오기
 
     if (files && files.length > 0) {
-      const file = files[0];
-      const fileURL = URL.createObjectURL(file); // 파일의 URL 생성
-
-      setImageData(fileURL); // 파일 URL을 상태로 설정
+      const fileList = Array.from(files);
+      setShowImage(true);
+      setImageData(fileList);
     }
   };
 
@@ -47,28 +49,29 @@ const ReviewWrite = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (!textData && !imageData) {
+    if (!textData) {
       alert('리뷰를 작성해주세요✍️');
       return;
     }
 
+    const user_id = 'user1';
+
+    const locationId = location_id ?? '';
+
     const formData = new FormData();
-    // formData.append('user_id', user_id);
+    formData.append('user_id', user_id);
+    formData.append('location_id', locationId);
+    formData.append('star_rating', starData);
     formData.append('review_content', textData);
-    formData.append('review_img', imageData);
+    if (imageData) formData.append('review_img', imageData[0]);
 
     try {
-      const response = await axios.post(
-        `http://localhost:5500/api/v1/review/`,
-        formData,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
+      await axios.post(`http://localhost:5500/api/v1/review`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
         }
-      );
-      console.log(response);
-      navigate(`api/v1/review/location/${location_id}`);
+      });
+      navigate(`/api/v1/review/location/${location_id}`);
     } catch (error) {
       console.error(error);
     }
@@ -84,8 +87,11 @@ const ReviewWrite = () => {
             <div className="write-top">
               <p className="write-title">나의 리뷰</p>
               <div className="select-box">
-                <select name="star">
-                  <option disabled>-</option>
+                <select
+                  name="star"
+                  value={starData}
+                  onChange={handleStarRating}
+                >
                   <option value="1">⭐</option>
                   <option value="2">⭐⭐</option>
                   <option value="3">⭐⭐⭐</option>
@@ -114,10 +120,14 @@ const ReviewWrite = () => {
                 onChange={handleFileSave}
               />
             </div>
-            {imageData ? (
-              <div className="image-preview">
-                <img src={imageData} alt="리뷰 이미지" />
-              </div>
+            {showImage ? (
+              imageData.map(image => {
+                return (
+                  <div className="image-preview" key={image.name + image.size}>
+                    <img src={URL.createObjectURL(image)} alt="리뷰 이미지" />
+                  </div>
+                );
+              })
             ) : (
               <div className="image-preview-empty">
                 <img src={IconPreviewEmpty} alt="미리보기" />

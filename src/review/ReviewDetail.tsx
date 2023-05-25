@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-// import iconWrite from '../images/icon-write-review.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-
-interface ReviewType {
-  review_id: number;
-  created_at: string;
-  user_nickname: string;
-  user_pic: string;
-  review_content: string;
-  review_img: string;
-  star_rating: number;
-}
+import { ReviewType } from './ReviewType';
 
 const ReviewDetail = () => {
   const { review_id } = useParams();
@@ -71,10 +61,6 @@ const ReviewDetail = () => {
           </div>
         </div>
       </DetailContent>
-      {/* 
-      <WriteButton to="/api/v1/review">
-        <img src={iconWrite} alt="리뷰 작성하기" />
-      </WriteButton> */}
     </DetailContainer>
   );
 };
