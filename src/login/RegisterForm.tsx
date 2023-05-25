@@ -166,11 +166,9 @@ const RegisterForm = (props: any) => {
   };
   return (
     <>
-      <Wrapper>
-        <form>
-          <div>
-            <Message>동네를 선택해주세요</Message>
-          </div>
+      <form>
+        <Message>동네를 선택해주세요</Message>
+        <Wrapper>
           <div>
             <Select
               name="시"
@@ -198,7 +196,9 @@ const RegisterForm = (props: any) => {
               ;
             </Select>
           </div>
-
+        </Wrapper>
+        <Message>회원정보 입력</Message>
+        <Wrapper>
           <div>
             <InputArea>
               <LabelText htmlFor="profileImg">프로필사진</LabelText>
@@ -270,13 +270,13 @@ const RegisterForm = (props: any) => {
             </InputArea>
             <p className="message"> {nameMessage} </p>
           </div>
-          <div>
-            <BtnRegister type="submit" onClick={onClick}>
-              <Link to={`/register/pet`}>회원가입</Link>
-            </BtnRegister>
-          </div>
-        </form>
-      </Wrapper>
+        </Wrapper>
+        <div>
+          <BtnRegister type="submit" onClick={onClick}>
+            <Link to={`/register/pet`}>회원가입</Link>
+          </BtnRegister>
+        </div>
+      </form>
     </>
   );
 };
@@ -290,6 +290,8 @@ const Wrapper = styled.div`
   box-sizing: border-box;
   background: #fffaf3;
   border-radius: 10px;
+  margin: 10px auto;
+  padding: 20px;
 
   & > form {
     display: block;
@@ -312,7 +314,7 @@ const Select = styled.select`
   width: 100%;
   border: 1px solid #eb8d00;
   border-radius: 10px;
-  margin: 10px;
+  margin: 10px auto;
   padding: 10px;
 `;
 
@@ -322,18 +324,11 @@ const Option = styled.option`
   padding: 10px;
 `;
 
-const Message = styled.span`
+const Message = styled.div`
   font-size: 24px;
   margin: 20px 10px;
   margin-top: 40px;
 `;
-
-// const Label = styled.label`
-//   align-items: center;
-//   display: flex;
-//   gap: 8px;
-//   margin-bottom: 8px;
-// `
 
 const LabelText = styled.label`
   position: relative;
@@ -356,7 +351,7 @@ const InputValue = styled.input.attrs(props => ({
   font-size: 1em;
   border: 1px solid #eb8d00;
   border-radius: 10px;
-  margin: 10px;
+  margin: 10px auto;
   width: 100%;
   padding: ${props => props.size};
 `;
@@ -366,18 +361,6 @@ const InputPw = styled(InputValue).attrs({
 })`
   border: 1px solid #eb8d00;
 `;
-
-// const BtnUnique = styled.button`
-//   box-sizing: border-box;
-
-//   position: relative;
-//   width: 66px;
-//   height: 50px;
-
-//   background: #ffffff;
-//   border: 1px solid #e8e8e8;
-//   border-radius: 10px;
-// `;
 
 const BtnRegister = styled.button`
   position: relative;

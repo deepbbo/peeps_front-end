@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -15,15 +15,12 @@ const Login = () => {
         user_id: id,
         user_password: password
       };
-      console.log(body);
       const response = await axios.post(loginUrl, body);
-      // const { accessToken, refreshToken } = response.data.data;
       const userToken = response.data.data.userToken;
       localStorage.setItem('userToken', JSON.stringify(userToken));
       localStorage.setItem('accessToken', userToken.accessToken);
       localStorage.setItem('refreshToken', userToken.refreshToken);
       navigate('/my');
-      console.log('로그인 성공', response);
       // 로그인 성공 또는 실패에 따른 처리
     } catch (e) {
       alert('Failed to login');
