@@ -33,7 +33,17 @@ const ReviewList = () => {
   };
 
   if (loading) {
-    return <div>불러오는 중...</div>;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          paddingTop: '360px'
+        }}
+      >
+        불러오는 중...
+      </div>
+    );
   }
 
   return (
