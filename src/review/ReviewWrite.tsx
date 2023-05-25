@@ -45,6 +45,10 @@ const ReviewWrite = () => {
   //   setImageData('');
   // };
 
+  const handleStarRating = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setStarData(e.target.value);
+  };
+
   // 폼 데이터 변경 이벤트 처리
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
