@@ -6,6 +6,7 @@ const PostItemBlock = styled.div`
   justify-content: space-between;
   width: 100%;
   border-bottom: 1px solid #e6e6e6;
+  min-height: 78px;
 `;
 const PostLink = styled.a`
   display: flex;

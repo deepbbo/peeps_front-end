@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 const PostListBlock = styled.div`
   margin: 0 auto;
   padding: 0 16px;
+  height: calc(100vh - 76px);
 `;
 const PostFormLink = styled(Link)`
   position: fixed;
@@ -23,7 +24,7 @@ const PostFormLink = styled(Link)`
   width: 24px;
   height: 24px;
   text-align: center;
-  line-height: 21px;
+  line-height: 29px;
 `;
 
 const PostList = ({ nowCategory }: { nowCategory: string }) => {
@@ -40,7 +41,7 @@ const PostList = ({ nowCategory }: { nowCategory: string }) => {
 
   return (
     <>
-      <PostListBlock>
+      <PostListBlock className="dd">
         {posts.map((postData: any, index: number) => (
           <PostItem
             postData={postData}

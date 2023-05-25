@@ -3,8 +3,8 @@ import Header from './components/Header';
 import Navigation from './components/Navigation';
 import styled from 'styled-components';
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
-import PostForm from './components/PostForm';
-import PostPage from './components/PostPage';
+import PostPage from './components/posts/PostPage';
+import PostForm from './components/posts/PostForm';
 
 function App() {
   return (
