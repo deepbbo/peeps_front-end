@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import iconWrite from '../images/icon-write-review.svg';
+import iconEmpty from '../images/icon-review-empty.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
@@ -50,8 +51,11 @@ const ReviewList = () => {
 
       <ReviewContent>
         <h1>전체 리뷰</h1>
-        {!reviewData ? (
-          <div>등록된 리뷰가 없습니다.</div>
+        {reviewData.length === 0 ? (
+          <div className="empty">
+            <img src={iconEmpty} alt="" />
+            등록된 리뷰가 없습니다.
+          </div>
         ) : (
           <ul className="review-wrap">
             {reviewData &&
@@ -113,6 +117,18 @@ const ReviewContent = styled.div`
     font-size: 18px;
     line-height: 1em;
     color: #eb8d00;
+  }
+
+  .empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - 125px);
+
+    img {
+      margin-bottom: 10px;
+    }
   }
 
   .review-wrap {
