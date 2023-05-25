@@ -30,13 +30,15 @@ const ReviewWrite = () => {
 
   // 이미지 업로드
   const handleFileSave = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files; // 파일 리스트 가져오기
-
-    if (files && files.length > 0) {
-      const fileList = Array.from(files);
-      setShowImage(true);
-      setImageData(fileList);
-    }
+    const files = e.target.files as any;
+    setShowImage(true);
+    setImageData([...files]);
+    // const files = e.target.files;
+    // if (files && files.length > 0) {
+    //   const fileList = Array.from(files);
+    //   setShowImage(true);
+    //   setImageData(fileList);
+    // }
   };
 
   // 이미지 삭제
@@ -63,18 +65,23 @@ const ReviewWrite = () => {
     const locationId = location_id ?? '';
 
     const formData = new FormData();
+    const headers = {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    };
     formData.append('user_id', user_id);
     formData.append('location_id', locationId);
     formData.append('star_rating', starData);
     formData.append('review_content', textData);
-    if (imageData) formData.append('review_img', imageData[0]);
+    formData.append('review_img', imageData[0]);
 
     try {
-      await axios.post(`http://localhost:5500/api/v1/review`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      });
+      await axios.post(
+        `http://localhost:5500/api/v1/review`,
+        formData,
+        headers
+      );
       navigate(`/api/v1/review/location/${location_id}`);
     } catch (error) {
       console.error(error);

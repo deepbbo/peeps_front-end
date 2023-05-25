@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 import iconWrite from '../images/icon-write-review.svg';
 import iconEmpty from '../images/icon-review-empty.svg';
+import iconProfileEmpty from '../images/icon-user-profile-empty.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
@@ -26,6 +27,7 @@ const ReviewList = () => {
       }
     })();
   }, []);
+  console.log(reviewData);
 
   const getDate = (date: string) => {
     const newDate: string = date.split('T')[0];
@@ -65,7 +67,11 @@ const ReviewList = () => {
                   <div className="review-user">
                     <div className="user-content">
                       <div className="user-content-profile">
-                        <img src={review.user_pic} alt="유저 프로필"></img>
+                        {review.user_pic ? (
+                          <img src={review.user_pic} alt="유저 프로필"></img>
+                        ) : (
+                          <img src={iconProfileEmpty} alt="유저 프로필"></img>
+                        )}
                       </div>
                       <div className="user-content-info">
                         <p>{review.user_nickname}</p>
