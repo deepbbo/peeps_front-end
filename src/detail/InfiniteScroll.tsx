@@ -97,6 +97,7 @@ import PostFeed from './PostFeed';
 const InfiniteScroll = () => {
   const rowRenderer = useCallback(() => {
     return <PostFeed />;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

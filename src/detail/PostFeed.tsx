@@ -7,24 +7,39 @@ import { PostTypes } from './types/types';
 const PostFeed = () => {
   const [posts, setPosts] = useState<PostTypes | any>([]);
 
-  const postsUrl = 'http://localhost:9999/board';
-
   useEffect(() => {
     (async () => {
-      const response = await axios.get(postsUrl);
-      const data = response.data;
-      setPosts([...posts, ...data]);
+      const post_category = '일상'; //일상
+      const postCategoryUrl = `http://localhost:5500/api/v1/post/category/${post_category}`;
+      const accessToken = localStorage.getItem('accessToken');
+      console.log('token:', accessToken);
+      try {
+        const header = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          },
+          withCredentials: true
+        };
+        const response = await axios.get(postCategoryUrl, header);
+        const data = response.data.data;
+        setPosts([...data]);
+      } catch (error) {
+        console.error(error);
+      }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
       <Contents>
-        {posts.map((post: PostTypes) => (
-          <div key={post.id}>
-            <Link to={`/board/${post.id}`}>{post.title}</Link>
-          </div>
-        ))}
+        <ul>
+          {posts.map((post: PostTypes) => (
+            <li key={post.post_id}>
+              <Link to={`/post/${post.post_id}`}>{post.post_title}</Link>
+            </li>
+          ))}
+        </ul>
       </Contents>
     </>
   );
@@ -36,8 +51,8 @@ const Contents = styled.div`
   // min-width: 375px;
   // max-width: 425px;
   width: 100%;
-  height: calc(100vh - 156px);
-  position: absolute;
+  min-height: calc(100vh - 156px);
+  position: relative;
   background-color: #ffffff;
   // border: solid 1px #979797;
 `;

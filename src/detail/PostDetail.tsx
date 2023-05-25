@@ -1,12 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { List } from 'react-virtualized';
 import axios from 'axios';
 import PostHeader from './PostHeader';
 import PostContent from './PostContent';
-import PostComments from './PostComments';
+import Comment from './Comment';
+import PostCommentInput from './PostCommentInput';
 import { useParams } from 'react-router-dom';
-import { PostTypes } from './types/types';
+import { PostTypes, CommentTypes } from './types/types';
 
 const PostDetail = () => {
   //무한스크롤 기능
@@ -24,43 +24,71 @@ const PostDetail = () => {
   // }, [onRemove, todos, onToggle])
 
   //데이터 받아오기
-  const { id } = useParams();
-  const [post, setPost] = useState<PostTypes | any>([]);
 
-  const postUrl = `http://localhost:9999/board/${id}`;
+  // console.log(id);
+  const [post, setPost] = useState<PostTypes | any>({});
+  const { post_id } = useParams();
 
   useEffect(() => {
     (async () => {
-      const response = await axios.get(postUrl);
-      const data = response.data;
-      setPost([...post, data]);
+      const postUrl = `http://localhost:5500/api/v1/post/${post_id}`;
+      const accessToken = localStorage.getItem('accessToken');
+      // console.log('token:', accessToken);
+      try {
+        const header = {
+          headers: {
+            Authorization: `Bearer ${accessToken}`
+          },
+          withCredentials: true
+        };
+        const response = await axios.get(postUrl, header);
+        const data = response.data.data;
+        setPost(data);
+      } catch (error) {
+        console.error(error);
+      }
     })();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // console.log('postDetail post출력:', post);
   return (
     <>
-      {/* <List
-      className='TodoList'
-      width={512} // 전체 크기
-      height={513} // 전체 높이
-      rowCount={todos.length} // 항목 개수
-      rowHeight={57} // 항목 높이
-      rowRenderer={rowRenderer} // 항목을 렌더링할 때 쓰는 함수
-      list={todos} // 배열
-      style={{outline: 'none'}} // List에 기본 적용되는 outline 스타일 제거
-    /> */}
       <Contents>
-        {post.map((post: PostTypes) => (
-          <div key={post.id}>
-            <PostHeader
-              category={post.category}
-              title={post.title}
-              date={post.date}
-              user_nickname={post.user_nickname}
-            />
-            <PostContent text={post.text} />
-            <PostComments post_id={post.id} />
-          </div>
-        ))}
+        <div key={post.post_id}>
+          <PostHeader
+            post_id={post.post_id}
+            post_category={post.post_category}
+            post_title={post.post_title}
+            created_at={post.created_at}
+            user_nickname={post.user_nickname}
+            user_id={post.user_id}
+            user_img={post.user_img}
+            comment_count={post.comment_count}
+          />
+          <PostContent
+            post_content={post.post_content}
+            post_img={post.post_img}
+          />
+          <CommentHeader>
+            <span>댓글 {post.comment_count}</span>
+          </CommentHeader>
+          {post.comments &&
+            post.comments.map((comment: CommentTypes) => (
+              <div key={comment.comment_id}>
+                {comment.comment_id}
+                <Comment
+                  comment_id={comment.comment_id}
+                  comment_content={comment.comment_content}
+                  created_at={comment.created_at}
+                  user_nickname={comment.user_nickname}
+                  user_id={comment.user_id}
+                  user_img={comment.user_img}
+                />
+              </div>
+            ))}
+          <PostCommentInput post_id={post.post_id} />
+        </div>
       </Contents>
       {/* </List> */}
     </>
@@ -73,7 +101,14 @@ const Contents = styled.div`
   // min-width: 375px;
   // max-width: 425px;
   width: 100%;
-  height: calc(100vh - 156px);
+  min-height: calc(100vh - 156px);
+  position: relative;
   background-color: #ffffff;
   // border: solid 1px #000000;
+`;
+
+const CommentHeader = styled.div`
+  position: relative;
+  margin-bottom: 14px;
+  padding: 18px 16px 0;
 `;
