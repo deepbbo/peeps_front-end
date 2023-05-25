@@ -36,7 +36,7 @@ const PostList = ({ nowCategory }: { nowCategory: string }) => {
       const data = response.data.data;
       setPosts([...data]);
     })();
-  }, []);
+  }, [postsUrl]);
 
   return (
     <>
