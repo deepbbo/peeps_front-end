@@ -3,6 +3,8 @@ import Header from './components/Header';
 import Navigation from './components/Navigation';
 import styled from 'styled-components';
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
+import PostForm from './components/PostForm';
+import PostPage from './components/PostPage';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
+          <Route path="/posts/form" element={<PostForm />} />
+          <Route path="/posts" element={<PostPage />} />
         </Routes>
       </Router>
     </AppContainer>
