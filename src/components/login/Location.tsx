@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import styled, { css } from 'styled-components';
-import location from '../json-server/location.json';
+import location from '../../json-server/location.json';
 
 interface T {
   separate: string;
