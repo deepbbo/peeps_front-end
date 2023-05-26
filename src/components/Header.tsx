@@ -1,7 +1,13 @@
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 
 const Header = () => {
-  return <StyledHeader>위치</StyledHeader>;
+  const header = useSelector((state: RootState) => {
+    return state.header;
+  });
+
+  return <StyledHeader>{header}</StyledHeader>;
 };
 
 export default Header;

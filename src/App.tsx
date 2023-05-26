@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import MapContainer from './components/map/MapContainer';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
+import PostPage from './components/posts/PostPage';
+import PostForm from './components/posts/PostForm';
 import ReviewList from './components/review/ReviewList';
 import ReviewWrite from './components/review/ReviewWrite';
 import ReviewDetail from './components/review/ReviewDetail';
@@ -23,6 +25,8 @@ const App = () => {
           <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
+          <Route path="/posts/form" element={<PostForm />} />
+          <Route path="/posts" element={<PostPage />} />
         </Routes>
         <Navigation />
       </Router>
