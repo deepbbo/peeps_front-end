@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import location from '../../json-server/location.json';
+import location from './location.json';
 import axios from 'axios';
 
 const RegisterForm = (props: any) => {
