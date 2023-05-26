@@ -8,16 +8,17 @@ const App = () => {
   return (
     <AppContainer>
       <Header />
-      <MapContainer />
       <Router>
-        <Navigation />
         <Routes>
-          {/* element로 컴포넌트 연결 필요 */}
-          <Route path="/map" />
+          <Route path="/api/v1/map" element={<MapContainer />}></Route>
+          <Route path="/api/v1/review/location/:location_id" />
+          <Route path="/api/v1/review" />
+          <Route path="/api/v1/review/:review_id" />
           <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
         </Routes>
+        <Navigation />
       </Router>
     </AppContainer>
   );

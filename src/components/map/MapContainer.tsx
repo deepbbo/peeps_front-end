@@ -3,6 +3,7 @@ import style from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { changePlace } from '../../redux/placeSlice';
 import { useNavigate } from 'react-router-dom';
+import { changeHeader } from '../../redux/headerSlice';
 
 declare global {
   interface Window {
@@ -19,18 +20,15 @@ interface Place {
   y: number;
 }
 
-interface Center {
-  lat: number;
-  lng: number;
-}
-
 const MapContainer: React.FC = () => {
   const dispatch = useDispatch();
   const [map, setMap] = useState<any>(null);
-  // const [center, setCenter] = useState<any>();
+  const [center, setCenter] = useState<any>();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [markers, setMarkers] = useState<any>([]);
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
+  const [address, setAddress] = useState<string>(''); // Added state for the address
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,10 +65,6 @@ const MapContainer: React.FC = () => {
             console.error('위치 정보를 가져올 수 없습니다.');
           }
           setMap(newMap); // map 상태 업데이트
-
-          // newMap.addListener('center_changed', () => {
-          //   // setCenter(map.getCenter());
-          // });
         });
       };
 
@@ -79,6 +73,78 @@ const MapContainer: React.FC = () => {
 
     loadMap();
   }, []);
+
+  useEffect(() => {
+    const handleCenterChanged = async () => {
+      if (map) {
+        const bounds = map.getBounds();
+        const ne = bounds.getNorthEast();
+        const sw = bounds.getSouthWest();
+
+        const centerLng = (ne?.getLng() + sw?.getLng()) / 2;
+        const centerLat = (ne?.getLat() + sw?.getLat()) / 2;
+
+        const newCenter = { lat: centerLat, lng: centerLng };
+        setCenter(newCenter);
+
+        const geocoder = new window.kakao.maps.services.Geocoder();
+
+        // const callback = function (result: any[], status: any) {
+        //   if (status === window.kakao.maps.services.Status.OK) {
+        //     const address_name = result[0].address_name.split(' ');
+        //     console.log(address_name[1]);
+        //     // dispatch(changeHeader(address_name));
+        //   }
+        // };
+
+        const centerAddress: any = await new Promise(resolve => {
+          geocoder.coord2RegionCode(
+            centerLng,
+            centerLat,
+            (result: any[], status: any) => {
+              if (status === window.kakao.maps.services.Status.OK) {
+                const address_name = result[0].address_name.split(' ');
+                console.log(address_name[1]);
+              }
+              resolve(result);
+            }
+          );
+        });
+        // console.log(centerAddress);
+        const address_name = centerAddress[0].address_name.split(' ')[1];
+
+        console.log(address_name);
+        dispatch(changeHeader(address_name));
+      }
+    };
+
+    if (map) {
+      map.addListener('center_changed', handleCenterChanged);
+    }
+
+    return () => {
+      if (map) {
+        map.removeListener('center_changed', handleCenterChanged);
+      }
+    };
+  }, [map]);
+
+  useEffect(() => {
+    if (center && map) {
+      const geocoder = new window.kakao.maps.services.Geocoder();
+
+      const callback = (result: any, status: any) => {
+        if (status === window.kakao.maps.services.Status.OK) {
+          setAddress(result[0].address_name);
+        } else {
+          setAddress('');
+        }
+      };
+
+      const { lat, lng } = center;
+      geocoder.coord2Address(lng, lat, callback);
+    }
+  }, [center, map]);
 
   const handleReturnToCurrentLocation = () => {
     if (map && navigator.geolocation) {

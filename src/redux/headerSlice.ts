@@ -8,6 +8,7 @@ const headerSlice = createSlice({
   reducers: {
     changeHeader(state, action: PayloadAction<string>) {
       state = action.payload;
+      return state; // 상태 객체 반환
     }
   }
 });
