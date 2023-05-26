@@ -234,7 +234,7 @@ const PostForm = () => {
       const check = window.confirm('게시글을 등록하시겠습니까?');
       if (!check) return;
     }
-    const url = 'http://localhost:5500/api/v1/post/peeps3';
+    const url = 'http://localhost:5500/api/v1/post/user10';
     const totalFormData = new FormData();
     const headers = {
       headers: {
@@ -271,7 +271,7 @@ const PostForm = () => {
               <ModalList>
                 <li onClick={handleCategoryChange}>일상</li>
                 <li onClick={handleCategoryChange}>정보공유</li>
-                <li onClick={handleCategoryChange}>내새꾸 자랑</li>
+                <li onClick={handleCategoryChange}>내 새꾸 자랑</li>
               </ModalList>
               <p onClick={handleModalOpenClose}>닫기</p>
             </ModalContent>
