@@ -1,5 +1,5 @@
 {
-  "plugins": ["import", "html", "prettier"],
+  "plugins": ["import", "prettier"],
   "extends": ["plugin:prettier/recommended", "react-app"],
   "rules": {
     "prettier/prettier": "error"
