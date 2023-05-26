@@ -3,9 +3,9 @@ import styled from 'styled-components';
 import MapContainer from './components/map/MapContainer';
 import Header from './components/Header';
 import Navigation from './components/Navigation';
-import ReviewList from './review/ReviewList';
-import ReviewWrite from './review/ReviewWrite';
-import ReviewDetail from './review/ReviewDetail';
+import ReviewList from './components/review/ReviewList';
+import ReviewWrite from './components/review/ReviewWrite';
+import ReviewDetail from './components/review/ReviewDetail';
 
 const App = () => {
   return (
