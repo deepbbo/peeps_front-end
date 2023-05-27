@@ -1,5 +1,5 @@
 import React from 'react';
-import star from '../images/icon-star.svg';
+import star from '../../images/icon-star.svg';
 import styled from 'styled-components';
 
 function StarRating({ rating }: { rating: number }) {

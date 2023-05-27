@@ -8,6 +8,11 @@ import PostForm from './components/posts/PostForm';
 import ReviewList from './components/review/ReviewList';
 import ReviewWrite from './components/review/ReviewWrite';
 import ReviewDetail from './components/review/ReviewDetail';
+import Login from './components/login/Login';
+import Register from './components/login/Register';
+import RegisterPet from './components/login/RegisterPet';
+import PostDetail from './components/detail/PostDetail';
+import PostFeed from './components/detail/PostFeed';
 
 const App = () => {
   return (
@@ -15,6 +20,9 @@ const App = () => {
       <Header />
       <Router>
         <Routes>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/register/pet" element={<RegisterPet />}></Route>
           <Route path="/api/v1/map" element={<MapContainer />}></Route>
           <Route
             path="/api/v1/review/location/:location_id"
@@ -26,7 +34,8 @@ const App = () => {
           <Route path="/chat" />
           <Route path="/my" />
           <Route path="/posts/form" element={<PostForm />} />
-          <Route path="/posts" element={<PostPage />} />
+          <Route path="/posts" element={<PostFeed />} />
+          <Route path="/post/:post_id" element={<PostDetail />} />
         </Routes>
         <Navigation />
       </Router>

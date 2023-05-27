@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import axios from 'axios';
 import ReviewPlace from './ReviewPlace';
 import { useNavigate, useLocation } from 'react-router-dom';
-import IconImgUpload from '../images/icon-upload-img.svg';
-import IconPreviewEmpty from '../images/icon-image-preview-empty.svg';
+import IconImgUpload from '../../images/icon-upload-img.svg';
+import IconPreviewEmpty from '../../images/icon-image-preview-empty.svg';
 
 const ReviewWrite = () => {
   const [textData, setTextData] = useState('');

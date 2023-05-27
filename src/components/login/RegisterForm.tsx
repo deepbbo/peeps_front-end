@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import location from './location.json';
 import axios from 'axios';
+import IconProfile from '../../images/profile_gray.svg';
 
 const RegisterForm = (props: any) => {
   const [addressSi, setAddressSi] = useState('서울시');
@@ -14,6 +15,7 @@ const RegisterForm = (props: any) => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [profileImg, setProfileImg] = useState('');
+  const imgRef = useRef<HTMLInputElement>(null);
 
   // 오류메세지 상태 저장
   const [idMessage, setIdMessage] = useState('');
@@ -92,67 +94,48 @@ const RegisterForm = (props: any) => {
       setIsPasswordConfirm(true);
     }
   };
-  // const onChangeProfileImg = (e: {
-  //   preventDefault: () => void;
-  //   target: HTMLInputElement;
-  // }) => {
-  //   e.preventDefault();
-  //   // if (e.target.files) {
-  //   //   const uploadProfileImg = e.target.files[0];
-  //   //   formData.append('file', uploadProfileImg);
-  //   //   setProfileImg(uploadProfileImg);
-  //   //   console.log(uploadProfileImg);
-  //   //   console.log('===useState===');
-  //   //   console.log(profileImg);
-  //   // }
-  //   // const userImage = document.getElementById('user_img');
-  //   // const target = e.target as HTMLInputElement;
-  //   const formData = new FormData();
-  //   formData.append('imageFile', (e.target as HTMLInputElement).files[0]);
-  // };
-  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const files = event.target.files;
-  //   if (files && files.length > 0) {
-  //     setSelectedFile(files[0]);
-  //   }
-  // };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = () => {
+        const result = reader.result as string;
+        setProfileImg(result);
+      };
+    }
+  };
   const onClick = async (e: { preventDefault: () => void }) => {
-    console.log(
-      'id:',
-      id,
-      'pw:',
-      password,
-      'pw2:',
-      passwordConfirm,
-      'name:',
-      name,
-      'nickname:',
-      nickname,
-      'si:',
-      addressSi,
-      'do:',
-      addressDo
-    );
+    // console.log(
+    //   'id:',
+    //   id,
+    //   'pw:',
+    //   password,
+    //   'pw2:',
+    //   passwordConfirm,
+    //   'name:',
+    //   name,
+    //   'nickname:',
+    //   nickname,
+    //   'si:',
+    //   addressSi,
+    //   'do:',
+    //   addressDo
+    // );
     if (isId && isPassword && isPasswordConfirm && isName && isNickname) {
       const user_location = [addressSi, addressDo].join(' ');
       try {
         const registerUrl = 'http://localhost:5500/api/v1/user/register';
         // const filePath =
-        //   '/Users/chaeyeon/Desktop/elice/2차 스터디/peeps_backend/peeps_back-end/public';
-        // const body = {
-        //   user_id: id,
-        //   user_name: name,
-        //   user_nickname: nickname,
-        //   user_location: user_location,
-        //   user_img:
-        // };
-        // console.log(body);
+        //   '/Users/chaeyeon/Desktop/elice/Study2/peeps_backend/peeps_back-end/public';
         const formData = new FormData();
         formData.append('user_id', id);
         formData.append('user_password', password);
         formData.append('user_name', name);
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
+        formData.append('user_img', profileImg);
         const response = await axios.post(registerUrl, formData);
         console.log(response);
         // 회원가입 성공 또는 실패에 따른 처리
@@ -202,17 +185,17 @@ const RegisterForm = (props: any) => {
           <div>
             <InputArea>
               <LabelText htmlFor="profileImg">프로필사진</LabelText>
-              <img
-                alt="프로필사진"
-                src={process.env.PUBLIC_URL + '/icon/profile_gray.svg'}
-              ></img>
-              {/* <input
-                id="user_img"
+              <ProfileImg
+                src={profileImg ? profileImg : IconProfile}
+                alt="프로필 이미지"
+              ></ProfileImg>
+              <UserImgInput
+                id="profileImg"
                 type="file"
-                accept="image/jpg,image/png,image/jpeg,image/gif"
-                name="profile_img"
+                accept="image/*"
                 onChange={handleFileChange}
-              ></input> */}
+                ref={imgRef}
+              ></UserImgInput>
             </InputArea>
           </div>
           <div>
@@ -332,7 +315,7 @@ const Message = styled.div`
 
 const LabelText = styled.label`
   position: relative;
-  min-width: 70px;
+  min-width: 80px;
   text-align: center;
 `;
 
@@ -362,6 +345,14 @@ const InputPw = styled(InputValue).attrs({
   border: 1px solid #eb8d00;
 `;
 
+const UserImgInput = styled.input`
+  // display: none;
+`;
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+`;
 const BtnRegister = styled.button`
   position: relative;
   width: 100%;
