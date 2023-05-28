@@ -15,7 +15,6 @@ const App = () => {
       <Header />
       <Router>
         <Routes>
-          <Route path="/api/v1/map" element={<MapContainer />}></Route>
           <Route
             path="/api/v1/review/location/:location_id"
             element={<ReviewList />}
@@ -27,6 +26,7 @@ const App = () => {
           <Route path="/my" />
           <Route path="/posts/form" element={<PostForm />} />
           <Route path="/posts" element={<PostPage />} />
+          <Route path="/" element={<MapContainer />}></Route>
         </Routes>
         <Navigation />
       </Router>
