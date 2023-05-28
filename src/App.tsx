@@ -22,7 +22,6 @@ const App = () => {
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/register/pet" element={<RegisterPet />}></Route>
-          <Route path="/api/v1/map" element={<MapContainer />}></Route>
           <Route
             path="/api/v1/review/location/:location_id"
             element={<ReviewList />}

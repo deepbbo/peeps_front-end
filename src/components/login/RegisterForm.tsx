@@ -93,18 +93,6 @@ const RegisterForm = (props: any) => {
     }
   };
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onloadend = () => {
-  //       const result = reader.result as string;
-  //       setProfileImg(result);
-  //     };
-  //   }
-  //   console.log(profileImg);
-  // };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as any;
     setProfileImg([...files]);
