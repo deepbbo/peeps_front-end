@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CommentTypes } from './types/types';
 import axios from 'axios';
+import IconMoreInfo from '../../images/more-info.svg';
 
 const Comment = ({
   comment_id,
@@ -56,10 +57,7 @@ const Comment = ({
           {isMyComment() && (
             <AsideLayer>
               <div onClick={togglePopUpDown}>
-                <img
-                  alt="더보기아이콘"
-                  src={`${process.env.PUBLIC_URL}/icon/more-info.svg`}
-                ></img>
+                <img alt="더보기아이콘" src={IconMoreInfo}></img>
               </div>
               {showPopup ? (
                 <PopUp>

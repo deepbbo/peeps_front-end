@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import IconMoreInfo from '../../images/more-info.svg';
+import IconComments from '../../images/comment.svg';
 
 interface T {
   post_id: number;
@@ -47,10 +49,7 @@ const PostHeader = ({
           {isMyPost() && (
             <AsideLayer>
               <div onClick={togglePopUpDown}>
-                <img
-                  alt="더보기아이콘"
-                  src={`${process.env.PUBLIC_URL}/icon/more-info.svg`}
-                ></img>
+                <img alt="더보기아이콘" src={IconMoreInfo}></img>
               </div>
               {showPopup ? (
                 <PopUp>
@@ -74,10 +73,7 @@ const PostHeader = ({
           </Info>
           <div>
             <BtnComments>
-              <img
-                alt="댓글아이콘"
-                src={`${process.env.PUBLIC_URL}/icon/comment.svg`}
-              ></img>
+              <img alt="댓글아이콘" src={IconComments}></img>
             </BtnComments>
           </div>
         </UserWrap>

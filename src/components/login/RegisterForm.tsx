@@ -99,11 +99,11 @@ const RegisterForm = (props: any) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        const result = reader.result as string;
-        setProfileImg(result);
+      reader.onload = () => {
+        const url = reader.result as string;
+        setProfileImg(url);
       };
+      reader.readAsDataURL(file);
     }
   };
   const onClick = async (e: { preventDefault: () => void }) => {
@@ -129,6 +129,11 @@ const RegisterForm = (props: any) => {
         const registerUrl = 'http://localhost:5500/api/v1/user/register';
         // const filePath =
         //   '/Users/chaeyeon/Desktop/elice/Study2/peeps_backend/peeps_back-end/public';
+        const headers = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        };
         const formData = new FormData();
         formData.append('user_id', id);
         formData.append('user_password', password);
@@ -136,8 +141,11 @@ const RegisterForm = (props: any) => {
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
         formData.append('user_img', profileImg);
-        const response = await axios.post(registerUrl, formData);
+        const response = await axios.post(registerUrl, formData, headers);
         console.log(response);
+        for (let values of formData.values()) {
+          console.log(values); // 이미지 객체의 정보
+        }
         // 회원가입 성공 또는 실패에 따른 처리
       } catch (e) {
         alert('Failed to register');
@@ -191,6 +199,7 @@ const RegisterForm = (props: any) => {
               ></ProfileImg>
               <UserImgInput
                 id="profileImg"
+                name="profileImg"
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
