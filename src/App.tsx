@@ -12,7 +12,6 @@ import Login from './components/login/Login';
 import Register from './components/login/Register';
 import RegisterPet from './components/login/RegisterPet';
 import PostDetail from './components/detail/PostDetail';
-import PostFeed from './components/detail/PostFeed';
 
 const App = () => {
   return (
@@ -34,7 +33,7 @@ const App = () => {
           <Route path="/chat" />
           <Route path="/my" />
           <Route path="/posts/form" element={<PostForm />} />
-          <Route path="/posts" element={<PostFeed />} />
+          <Route path="/posts" element={<PostPage />} />
           <Route path="/post/:post_id" element={<PostDetail />} />
         </Routes>
         <Navigation />
