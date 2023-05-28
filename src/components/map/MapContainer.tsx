@@ -299,7 +299,7 @@ const MapContainer: React.FC = () => {
             <p>주소: {selectedPlace.address_name}</p>
             <p>카테고리: {selectedPlace.category_name}</p>
             <p>전화번호: {selectedPlace.phone}</p>
-            <button onClick={closeModal}>닫기</button>
+            {/* <button onClick={closeModal}>닫기</button> */}
           </div>
         </Modal>
       )}
@@ -336,7 +336,7 @@ const Buttons = style.div`
 const MyLocation = style.button`
   position: absolute;
   bottom: 20px;
-  right: 10px;
+  right: 21px;
   z-index: 1;
   font-size: 15px;
   color: #fff;
@@ -351,17 +351,30 @@ const MyLocation = style.button`
 `;
 
 const Modal = style.div`
-  width: 100%;
-  height: 100%;
+  width: 90%;
+  height: 20%;
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+
   
-  top: 0;
-  left: 0;
+  bottom: 0;
+  left: 5%;
   z-index:1;
   & .modal-content {
     background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    height: 100%;
+
+    p {
+      margin-top: 10px;
+    }
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  h2 {
+    font-size: 25px;
   }
 `;
