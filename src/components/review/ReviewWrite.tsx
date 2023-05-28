@@ -3,13 +3,12 @@ import styled from 'styled-components';
 import axios from 'axios';
 import ReviewPlace from './ReviewPlace';
 import { useNavigate, useLocation } from 'react-router-dom';
-import IconImgUpload from '../images/icon-upload-img.svg';
-import IconPreviewEmpty from '../images/icon-image-preview-empty.svg';
+import IconImgUpload from '../../images/icon-upload-img.svg';
+import IconPreviewEmpty from '../../images/icon-image-preview-empty.svg';
 
 const ReviewWrite = () => {
   const [textData, setTextData] = useState('');
   const [imageData, setImageData] = useState<File[]>([]);
-  const [showImage, setShowImage] = useState(false);
   const [starData, setStarData] = useState('5');
 
   const navigate = useNavigate();
@@ -31,14 +30,7 @@ const ReviewWrite = () => {
   // 이미지 업로드
   const handleFileSave = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as any;
-    setShowImage(true);
     setImageData([...files]);
-    // const files = e.target.files;
-    // if (files && files.length > 0) {
-    //   const fileList = Array.from(files);
-    //   setShowImage(true);
-    //   setImageData(fileList);
-    // }
   };
 
   // 이미지 삭제
@@ -65,23 +57,14 @@ const ReviewWrite = () => {
     const locationId = location_id ?? '';
 
     const formData = new FormData();
-    const headers = {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    };
     formData.append('user_id', user_id);
     formData.append('location_id', locationId);
     formData.append('star_rating', starData);
     formData.append('review_content', textData);
-    formData.append('review_img', imageData[0]);
+    formData.append('post_img', imageData[0]);
 
     try {
-      await axios.post(
-        `http://localhost:5500/api/v1/review`,
-        formData,
-        headers
-      );
+      await axios.post(`http://localhost:5500/api/v1/review`, formData);
       navigate(`/api/v1/review/location/${location_id}`);
     } catch (error) {
       console.error(error);
@@ -131,11 +114,11 @@ const ReviewWrite = () => {
                 onChange={handleFileSave}
               />
             </div>
-            {showImage ? (
+            {imageData.length > 0 ? (
               imageData.map(image => {
                 return (
                   <div className="image-preview" key={image.name + image.size}>
-                    <img src={URL.createObjectURL(image)} alt="리뷰 이미지" />
+                    <img src={URL.createObjectURL(image)} alt={image.name} />
                   </div>
                 );
               })

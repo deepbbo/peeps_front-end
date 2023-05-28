@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import iconGoBack from '../images/icon-go-back.svg';
+import iconGoBack from '../../images/icon-go-back.svg';
 import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+import { RootState } from '../../redux/store';
 
 const ReviewPlace = () => {
   const navigate = useNavigate();
