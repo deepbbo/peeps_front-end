@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import style from 'styled-components';
 import { useDispatch } from 'react-redux';
 import { changePlace } from '../../redux/placeSlice';
@@ -28,8 +28,26 @@ const MapContainer: React.FC = () => {
   const [markers, setMarkers] = useState<any>([]);
   const [selectedPlace, setSelectedPlace] = useState<any>(null);
   const [address, setAddress] = useState<string>(''); // Added state for the address
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const loadMap = () => {
@@ -88,14 +106,6 @@ const MapContainer: React.FC = () => {
         setCenter(newCenter);
 
         const geocoder = new window.kakao.maps.services.Geocoder();
-
-        // const callback = function (result: any[], status: any) {
-        //   if (status === window.kakao.maps.services.Status.OK) {
-        //     const address_name = result[0].address_name.split(' ');
-        //     console.log(address_name[1]);
-        //     // dispatch(changeHeader(address_name));
-        //   }
-        // };
 
         const centerAddress: any = await new Promise(resolve => {
           geocoder.coord2RegionCode(
@@ -276,12 +286,15 @@ const MapContainer: React.FC = () => {
       <Buttons className="buttons">
         <button onClick={() => handleSearch('동물병원')}>동물병원</button>
         <button onClick={() => handleSearch('공원')}>공원</button>
-        <button onClick={handleReturnToCurrentLocation}>현재위치로</button>
       </Buttons>
+
+      <MyLocation onClick={handleReturnToCurrentLocation}>
+        현재위치로
+      </MyLocation>
 
       {modalOpen && selectedPlace && (
         <Modal onClick={handleMapClick}>
-          <div className="modal-content">
+          <div className="modal-content" ref={modalRef}>
             <h2>{selectedPlace.place_name}</h2>
             <p>주소: {selectedPlace.address_name}</p>
             <p>카테고리: {selectedPlace.category_name}</p>
@@ -302,12 +315,38 @@ const MapWrapper = style.div`
 
 const Buttons = style.div`  
   position: absolute;
-  bottom: 50px;
-  right: 10px;
+  top: 15px;
+  left: 20px;
   z-index: 1;
 
   button {
+    font-size: 15px;
+    color: #fff;
     margin-right: 10px;
+    padding: 10px;
+    background-color: #eb8d00;
+    border-radius: 10px;
+    border: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+`;
+
+const MyLocation = style.button`
+  position: absolute;
+  bottom: 20px;
+  right: 10px;
+  z-index: 1;
+  font-size: 15px;
+  color: #fff;
+  padding: 10px;
+  background-color: #eb8d00;
+  border-radius: 10px;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
   }
 `;
 
