@@ -14,7 +14,7 @@ const RegisterForm = (props: any) => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [profileImg, setProfileImg] = useState('');
+  const [profileImg, setProfileImg] = useState<File[]>([]);
   const imgRef = useRef<HTMLInputElement>(null);
 
   // 오류메세지 상태 저장
@@ -74,9 +74,7 @@ const RegisterForm = (props: any) => {
     const passwordRegExp =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     if (!passwordRegExp.test(currentPassword)) {
-      setPasswordMessage(
-        '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!'
-      );
+      setPasswordMessage('숫자+영문자+특수문자 조합, 8자리 이상 입력해주세요!');
       setIsPassword(false);
     } else {
       setPasswordMessage('안전한 비밀번호 입니다.');
@@ -95,34 +93,23 @@ const RegisterForm = (props: any) => {
     }
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        const url = reader.result as string;
-        setProfileImg(url);
-      };
-      reader.readAsDataURL(file);
-    }
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const file = event.target.files?.[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.readAsDataURL(file);
+  //     reader.onloadend = () => {
+  //       const result = reader.result as string;
+  //       setProfileImg(result);
+  //     };
+  //   }
+  //   console.log(profileImg);
+  // };
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files as any;
+    setProfileImg([...files]);
   };
   const onClick = async (e: { preventDefault: () => void }) => {
-    // console.log(
-    //   'id:',
-    //   id,
-    //   'pw:',
-    //   password,
-    //   'pw2:',
-    //   passwordConfirm,
-    //   'name:',
-    //   name,
-    //   'nickname:',
-    //   nickname,
-    //   'si:',
-    //   addressSi,
-    //   'do:',
-    //   addressDo
-    // );
     if (isId && isPassword && isPasswordConfirm && isName && isNickname) {
       const user_location = [addressSi, addressDo].join(' ');
       try {
@@ -140,8 +127,11 @@ const RegisterForm = (props: any) => {
         formData.append('user_name', name);
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
-        formData.append('user_img', profileImg);
-        const response = await axios.post(registerUrl, formData, headers);
+        formData.append('post_img', profileImg[0]);
+        for (let values of formData.values()) {
+          console.log(values); // 이미지 객체의 정보
+        }
+        const response = await axios.post(registerUrl, formData);
         console.log(response);
         for (let values of formData.values()) {
           console.log(values); // 이미지 객체의 정보
@@ -193,10 +183,23 @@ const RegisterForm = (props: any) => {
           <div>
             <InputArea>
               <LabelText htmlFor="profileImg">프로필사진</LabelText>
-              <ProfileImg
-                src={profileImg ? profileImg : IconProfile}
-                alt="프로필 이미지"
-              ></ProfileImg>
+              {profileImg.length > 0 ? (
+                profileImg.map(image => {
+                  return (
+                    <div
+                      className="image-preview"
+                      key={image.name + image.size}
+                    >
+                      <ProfileImg
+                        src={URL.createObjectURL(image)}
+                        alt={image.name}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <ProfileImg src={IconProfile} alt="프로필 이미지"></ProfileImg>
+              )}
               <UserImgInput
                 id="profileImg"
                 name="profileImg"
@@ -291,10 +294,14 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     width: 100%;
   }
-  // & > form > div {
-  //   display: flex;
-  //   align-items: center;
-  // }
+  & > div {
+    // padding: 10px;
+  }
+  & > div > p {
+    padding: 5px 0;
+    font-size: 10px;
+    margin-left: 80px;
+  }
 `;
 
 const Select = styled.select`
@@ -331,6 +338,7 @@ const LabelText = styled.label`
 const InputArea = styled.div`
   position: relative;
   display: flex;
+  align-items: center;
 `;
 
 const InputValue = styled.input.attrs(props => ({
