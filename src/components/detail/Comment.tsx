@@ -16,6 +16,8 @@ const Comment = ({
   //   user_img = `/icon/profile.svg`;
   // }
   // console.log('유저아디:', user_id);
+  const newDate = created_at.split('T')[0];
+  const newTime = created_at.split('T')[1].split('.')[0];
   const isMyComment = () => {
     const userToken = localStorage.getItem('userToken');
     const userInfo = userToken ? JSON.parse(userToken).userInfo : null;
@@ -51,7 +53,10 @@ const Comment = ({
       <CommentBox>
         <CommentHeader>
           <div>
-            <img alt="프로필사진" src={process.env.PUBLIC_URL + user_img}></img>
+            <ProfileImg
+              alt="프로필사진"
+              src={process.env.PUBLIC_URL + user_img}
+            />
             <span>{user_nickname}</span>
           </div>
           {isMyComment() && (
@@ -72,7 +77,7 @@ const Comment = ({
           <p>{comment_content}</p>
         </CommentContent>
         <CommentFooter>
-          <p>{created_at}</p>
+          <p>{newDate + ' ' + newTime}</p>
         </CommentFooter>
       </CommentBox>
     </>
@@ -97,7 +102,11 @@ const CommentHeader = styled.div`
     align-items: center;
   }
 `;
-
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+`;
 const AsideLayer = styled.div`
   top: -3px;
   // right: -50px;

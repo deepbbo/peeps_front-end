@@ -42,7 +42,7 @@ function PostCommentInput({ post_id }: T) {
         <div>
           <img
             alt="프로필사진"
-            src={process.env.PUBLIC_URL + '/icon/profile.svg'}
+            src={process.env.PUBLIC_URL + userInfo.user_img}
           ></img>
         </div>
         <form onSubmit={handleSubmit}>

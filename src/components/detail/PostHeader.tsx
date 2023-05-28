@@ -26,6 +26,8 @@ const PostHeader = ({
   // if (user_img === null) {
   //   user_img = `/icon/profile.svg`;
   // }
+  const newDate = created_at.split('T')[0];
+  const newTime = created_at.split('T')[1].split('.')[0];
   const isMyPost = () => {
     const userToken = localStorage.getItem('userToken');
     const userInfo = userToken ? JSON.parse(userToken).userInfo : null;
@@ -62,13 +64,16 @@ const PostHeader = ({
         </TitMenu>
         <UserWrap>
           <ProfilePicture>
-            <img alt="프로필사진" src={process.env.PUBLIC_URL + user_img}></img>
+            <ProfileImg
+              alt="프로필사진"
+              src={process.env.PUBLIC_URL + user_img}
+            />
           </ProfilePicture>
           <InfoFirst>
             <Nickname>{user_nickname}</Nickname>
           </InfoFirst>
           <Info>
-            <Date>{created_at}</Date>
+            <Date>{newDate + ' ' + newTime}</Date>
             <CommentCount>댓글 {comment_count}</CommentCount>
           </Info>
           <div>
@@ -115,7 +120,11 @@ const PostTitle = styled.div`
   word-break: break-all;
   word-wrap: break-word;
 `;
-
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+`;
 const AsideLayer = styled.div`
   position: absolute;
   top: -3px;
