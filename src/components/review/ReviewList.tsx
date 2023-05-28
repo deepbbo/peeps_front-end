@@ -13,21 +13,20 @@ const ReviewList = () => {
   const { location_id } = useParams();
   const [reviewData, setReviewData] = useState<ReviewType[]>([]);
   const [loading, setLoading] = useState(true);
+  const reviewURL = `http://localhost:5500/api/v1/review/location/${location_id}`;
 
   useEffect(() => {
     (async () => {
-      // const a = '5678';
-      const reviewURL = `http://localhost:5500/api/v1/review/location/${location_id}`;
       try {
         const response = await axios.get(reviewURL);
-        setReviewData(response.data.data);
+        const data = response.data.data;
+        setReviewData([...data]);
         setLoading(false);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
-  console.log(reviewData);
+  }, [reviewURL]);
 
   const getDate = (date: string) => {
     const newDate: string = date.split('T')[0];

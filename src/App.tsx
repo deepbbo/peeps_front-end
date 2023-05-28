@@ -35,6 +35,7 @@ const App = () => {
           <Route path="/posts/form" element={<PostForm />} />
           <Route path="/posts" element={<PostPage />} />
           <Route path="/post/:post_id" element={<PostDetail />} />
+          <Route path="/" element={<MapContainer />}></Route>
         </Routes>
         <Navigation />
       </Router>
