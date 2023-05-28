@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
-import location from '../../json-server/location.json';
+import location from './location.json';
 import axios from 'axios';
+import IconProfile from '../../images/profile_gray.svg';
 
 const RegisterForm = (props: any) => {
   const [addressSi, setAddressSi] = useState('서울시');
@@ -13,7 +14,8 @@ const RegisterForm = (props: any) => {
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [profileImg, setProfileImg] = useState('');
+  const [profileImg, setProfileImg] = useState<File[]>([]);
+  const imgRef = useRef<HTMLInputElement>(null);
 
   // 오류메세지 상태 저장
   const [idMessage, setIdMessage] = useState('');
@@ -72,9 +74,7 @@ const RegisterForm = (props: any) => {
     const passwordRegExp =
       /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,25}$/;
     if (!passwordRegExp.test(currentPassword)) {
-      setPasswordMessage(
-        '숫자+영문자+특수문자 조합으로 8자리 이상 입력해주세요!'
-      );
+      setPasswordMessage('숫자+영문자+특수문자 조합, 8자리 이상 입력해주세요!');
       setIsPassword(false);
     } else {
       setPasswordMessage('안전한 비밀번호 입니다.');
@@ -92,67 +92,28 @@ const RegisterForm = (props: any) => {
       setIsPasswordConfirm(true);
     }
   };
-  // const onChangeProfileImg = (e: {
-  //   preventDefault: () => void;
-  //   target: HTMLInputElement;
-  // }) => {
-  //   e.preventDefault();
-  //   // if (e.target.files) {
-  //   //   const uploadProfileImg = e.target.files[0];
-  //   //   formData.append('file', uploadProfileImg);
-  //   //   setProfileImg(uploadProfileImg);
-  //   //   console.log(uploadProfileImg);
-  //   //   console.log('===useState===');
-  //   //   console.log(profileImg);
-  //   // }
-  //   // const userImage = document.getElementById('user_img');
-  //   // const target = e.target as HTMLInputElement;
-  //   const formData = new FormData();
-  //   formData.append('imageFile', (e.target as HTMLInputElement).files[0]);
-  // };
-  // const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //   const files = event.target.files;
-  //   if (files && files.length > 0) {
-  //     setSelectedFile(files[0]);
-  //   }
-  // };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files as any;
+    setProfileImg([...files]);
+  };
   const onClick = async (e: { preventDefault: () => void }) => {
-    console.log(
-      'id:',
-      id,
-      'pw:',
-      password,
-      'pw2:',
-      passwordConfirm,
-      'name:',
-      name,
-      'nickname:',
-      nickname,
-      'si:',
-      addressSi,
-      'do:',
-      addressDo
-    );
     if (isId && isPassword && isPasswordConfirm && isName && isNickname) {
       const user_location = [addressSi, addressDo].join(' ');
       try {
         const registerUrl = 'http://localhost:5500/api/v1/user/register';
         // const filePath =
-        //   '/Users/chaeyeon/Desktop/elice/2차 스터디/peeps_backend/peeps_back-end/public';
-        // const body = {
-        //   user_id: id,
-        //   user_name: name,
-        //   user_nickname: nickname,
-        //   user_location: user_location,
-        //   user_img:
-        // };
-        // console.log(body);
+        //   '/Users/chaeyeon/Desktop/elice/Study2/peeps_backend/peeps_back-end/public';
         const formData = new FormData();
         formData.append('user_id', id);
         formData.append('user_password', password);
         formData.append('user_name', name);
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
+        formData.append('post_img', profileImg[0]);
+        for (let values of formData.values()) {
+          console.log(values); // 이미지 객체의 정보
+        }
         const response = await axios.post(registerUrl, formData);
         console.log(response);
         // 회원가입 성공 또는 실패에 따른 처리
@@ -202,17 +163,30 @@ const RegisterForm = (props: any) => {
           <div>
             <InputArea>
               <LabelText htmlFor="profileImg">프로필사진</LabelText>
-              <img
-                alt="프로필사진"
-                src={process.env.PUBLIC_URL + '/icon/profile_gray.svg'}
-              ></img>
-              {/* <input
-                id="user_img"
+              {profileImg.length > 0 ? (
+                profileImg.map(image => {
+                  return (
+                    <div
+                      className="image-preview"
+                      key={image.name + image.size}
+                    >
+                      <ProfileImg
+                        src={URL.createObjectURL(image)}
+                        alt={image.name}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <ProfileImg src={IconProfile} alt="프로필 이미지"></ProfileImg>
+              )}
+              <UserImgInput
+                id="profileImg"
                 type="file"
-                accept="image/jpg,image/png,image/jpeg,image/gif"
-                name="profile_img"
+                accept="image/*"
                 onChange={handleFileChange}
-              ></input> */}
+                ref={imgRef}
+              ></UserImgInput>
             </InputArea>
           </div>
           <div>
@@ -299,10 +273,14 @@ const Wrapper = styled.div`
     justify-content: flex-start;
     width: 100%;
   }
-  // & > form > div {
-  //   display: flex;
-  //   align-items: center;
-  // }
+  & > div {
+    // padding: 10px;
+  }
+  & > div > p {
+    padding: 5px 0;
+    font-size: 10px;
+    margin-left: 80px;
+  }
 `;
 
 const Select = styled.select`
@@ -332,13 +310,14 @@ const Message = styled.div`
 
 const LabelText = styled.label`
   position: relative;
-  min-width: 70px;
+  min-width: 80px;
   text-align: center;
 `;
 
 const InputArea = styled.div`
   position: relative;
   display: flex;
+  align-items: center;
 `;
 
 const InputValue = styled.input.attrs(props => ({
@@ -362,6 +341,14 @@ const InputPw = styled(InputValue).attrs({
   border: 1px solid #eb8d00;
 `;
 
+const UserImgInput = styled.input`
+  // display: none;
+`;
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+`;
 const BtnRegister = styled.button`
   position: relative;
   width: 100%;

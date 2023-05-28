@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import ImageLogo from '../../images/logoSample.jpg';
+import IconId from '../../images/login_id.svg';
+import IconPassword from '../../images/login_pw.svg';
 
 const Login = () => {
   const [id, setId] = useState('');
@@ -40,18 +43,12 @@ const Login = () => {
   return (
     <Contents>
       <Logo>
-        <img
-          alt="로고"
-          src={process.env.PUBLIC_URL + '/icon/logoSample.jpg'}
-        ></img>
+        <img alt="로고" src={ImageLogo}></img>
       </Logo>
       <LoginBox>
         <form>
           <div>
-            <img
-              alt="id아이콘"
-              src={process.env.PUBLIC_URL + '/icon/login_id.svg'}
-            ></img>
+            <img alt="id아이콘" src={IconId}></img>
             <InputId
               placeholder="id"
               value={id}
@@ -59,10 +56,7 @@ const Login = () => {
             ></InputId>
           </div>
           <div>
-            <img
-              alt="pw아이콘"
-              src={process.env.PUBLIC_URL + '/icon/login_pw.svg'}
-            ></img>
+            <img alt="pw아이콘" src={IconPassword}></img>
             <InputPw
               placeholder="password"
               value={password}

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import IconProfile from '../../images/profile_gray.svg';
 
 const RegisterPet = (props: any) => {
   const { handleSubmit } = useForm({ mode: 'onChange' });
@@ -12,10 +13,7 @@ const RegisterPet = (props: any) => {
       <FormBox>
         <form onSubmit={handleSubmit(props.onSubmit)}>
           <div>
-            <img
-              alt="프로필사진"
-              src={process.env.PUBLIC_URL + '/icon/profile_gray.svg'}
-            ></img>
+            <img alt="프로필사진" src={IconProfile}></img>
           </div>
           <div>
             <LabelText>이름</LabelText>
