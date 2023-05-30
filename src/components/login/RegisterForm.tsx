@@ -111,9 +111,7 @@ const RegisterForm = (props: any) => {
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
         formData.append('post_img', profileImg[0]);
-        for (let values of formData.values()) {
-          console.log(values); // 이미지 객체의 정보
-        }
+
         const response = await axios.post(registerUrl, formData);
         console.log(response);
         // 회원가입 성공 또는 실패에 따른 처리
