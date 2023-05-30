@@ -9,23 +9,6 @@ import { useParams } from 'react-router-dom';
 import { PostTypes, CommentTypes } from './types/types';
 
 const PostDetail = () => {
-  //무한스크롤 기능
-  // const rowRenderer = useCallback(({index, key, style}) => {
-  //   const todo = todos[index];
-  //   return (
-  //     <TodoListItem
-  //       todo={todo}
-  //       key={key}
-  //       onRemove={onRemove}
-  //       onToggle={onToggle}
-  //       style={style}
-  //     />
-  //   );
-  // }, [onRemove, todos, onToggle])
-
-  //데이터 받아오기
-
-  // console.log(id);
   const [post, setPost] = useState<PostTypes | any>({});
   const { post_id } = useParams();
 
@@ -33,7 +16,6 @@ const PostDetail = () => {
     (async () => {
       const postUrl = `http://localhost:5500/api/v1/post/${post_id}`;
       const accessToken = localStorage.getItem('accessToken');
-      // console.log('token:', accessToken);
       try {
         const header = {
           headers: {
@@ -51,7 +33,6 @@ const PostDetail = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // console.log('postDetail post출력:', post);
   return (
     <>
       <Contents>
@@ -90,7 +71,6 @@ const PostDetail = () => {
           <PostCommentInput post_id={post.post_id} />
         </div>
       </Contents>
-      {/* </List> */}
     </>
   );
 };

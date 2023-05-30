@@ -23,17 +23,11 @@ const PostHeader = ({
   user_id,
   comment_count
 }: T) => {
-  // if (user_img === null) {
-  //   user_img = `/icon/profile.svg`;
-  // }
   const newDate = created_at.split('T')[0];
   const newTime = created_at.split('T')[1].split('.')[0];
   const isMyPost = () => {
     const userToken = localStorage.getItem('userToken');
     const userInfo = userToken ? JSON.parse(userToken).userInfo : null;
-    // console.log('토큰 유저아이디:', userInfo.user_id);
-    // console.log('댓글 유저아이디', user_id);
-    // console.log('닉넴', user_nickname);
     if (user_id === userInfo.user_id) {
       return true;
     } else return false;
@@ -193,15 +187,6 @@ const Nickname = styled.div`
   line-height: 1.2;
   align-items: center;
 `;
-
-// const UserImg = styled.div`
-//   border-radius: 35px;
-//   width: 40px;
-//   aspect-ratio: auto 40 / 40;
-//   height: 40px;
-//   overflow-clip-margin: content-box;
-//   overflow: clip;
-// `;
 
 const Date = styled.div`
   position: relative;
