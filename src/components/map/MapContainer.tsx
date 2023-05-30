@@ -297,9 +297,10 @@ const MapContainer: React.FC = () => {
           <div className="modal-content" ref={modalRef}>
             <h2>{selectedPlace.place_name}</h2>
             <p>주소: {selectedPlace.address_name}</p>
-            <p>카테고리: {selectedPlace.category_name}</p>
-            <p>전화번호: {selectedPlace.phone}</p>
-            {/* <button onClick={closeModal}>닫기</button> */}
+            <p>카테고리: {selectedPlace.category_name.split('>').at(-1)}</p>
+            <p>
+              {selectedPlace.phone ? `전화번호: ${selectedPlace.phone}` : null}
+            </p>
           </div>
         </Modal>
       )}
@@ -366,7 +367,7 @@ const Modal = style.div`
     height: 100%;
 
     p {
-      margin-top: 10px;
+      margin-top: 15px;
     }
   }
 
