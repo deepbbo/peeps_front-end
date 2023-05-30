@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import IconMoreInfo from '../../images/more-info.svg';
+import IconComments from '../../images/comment.svg';
 
 interface T {
   post_id: number;
@@ -21,15 +23,11 @@ const PostHeader = ({
   user_id,
   comment_count
 }: T) => {
-  // if (user_img === null) {
-  //   user_img = `/icon/profile.svg`;
-  // }
+  const newDate = created_at.split('T')[0];
+  const newTime = created_at.split('T')[1].split('.')[0];
   const isMyPost = () => {
     const userToken = localStorage.getItem('userToken');
     const userInfo = userToken ? JSON.parse(userToken).userInfo : null;
-    // console.log('토큰 유저아이디:', userInfo.user_id);
-    // console.log('댓글 유저아이디', user_id);
-    // console.log('닉넴', user_nickname);
     if (user_id === userInfo.user_id) {
       return true;
     } else return false;
@@ -47,10 +45,7 @@ const PostHeader = ({
           {isMyPost() && (
             <AsideLayer>
               <div onClick={togglePopUpDown}>
-                <img
-                  alt="더보기아이콘"
-                  src={`${process.env.PUBLIC_URL}/icon/more-info.svg`}
-                ></img>
+                <img alt="더보기아이콘" src={IconMoreInfo}></img>
               </div>
               {showPopup ? (
                 <PopUp>
@@ -63,21 +58,21 @@ const PostHeader = ({
         </TitMenu>
         <UserWrap>
           <ProfilePicture>
-            <img alt="프로필사진" src={process.env.PUBLIC_URL + user_img}></img>
+            <ProfileImg
+              alt="프로필사진"
+              src={process.env.PUBLIC_URL + user_img}
+            />
           </ProfilePicture>
           <InfoFirst>
             <Nickname>{user_nickname}</Nickname>
           </InfoFirst>
           <Info>
-            <Date>{created_at}</Date>
+            <Date>{newDate + ' ' + newTime}</Date>
             <CommentCount>댓글 {comment_count}</CommentCount>
           </Info>
           <div>
             <BtnComments>
-              <img
-                alt="댓글아이콘"
-                src={`${process.env.PUBLIC_URL}/icon/comment.svg`}
-              ></img>
+              <img alt="댓글아이콘" src={IconComments}></img>
             </BtnComments>
           </div>
         </UserWrap>
@@ -119,7 +114,11 @@ const PostTitle = styled.div`
   word-break: break-all;
   word-wrap: break-word;
 `;
-
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+`;
 const AsideLayer = styled.div`
   position: absolute;
   top: -3px;
@@ -188,15 +187,6 @@ const Nickname = styled.div`
   line-height: 1.2;
   align-items: center;
 `;
-
-// const UserImg = styled.div`
-//   border-radius: 35px;
-//   width: 40px;
-//   aspect-ratio: auto 40 / 40;
-//   height: 40px;
-//   overflow-clip-margin: content-box;
-//   overflow: clip;
-// `;
 
 const Date = styled.div`
   position: relative;
