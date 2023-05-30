@@ -93,18 +93,6 @@ const RegisterForm = (props: any) => {
     }
   };
 
-  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const file = event.target.files?.[0];
-  //   if (file) {
-  //     const reader = new FileReader();
-  //     reader.readAsDataURL(file);
-  //     reader.onloadend = () => {
-  //       const result = reader.result as string;
-  //       setProfileImg(result);
-  //     };
-  //   }
-  //   console.log(profileImg);
-  // };
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files as any;
     setProfileImg([...files]);
@@ -128,9 +116,7 @@ const RegisterForm = (props: any) => {
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
         formData.append('post_img', profileImg[0]);
-        for (let values of formData.values()) {
-          console.log(values); // 이미지 객체의 정보
-        }
+
         const response = await axios.post(registerUrl, formData);
         console.log(response);
         for (let values of formData.values()) {
