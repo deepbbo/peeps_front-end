@@ -69,10 +69,7 @@ const CommentInputBox = styled.div`
   font-size: 15px;
 `;
 
-const InputText = styled.input.attrs(props => ({
-  type: 'text',
-  size: props.size || '0.5em'
-}))`
+const InputText = styled.input`
   box-sizing: border-box;
   position: relative;
   color: #000000;
