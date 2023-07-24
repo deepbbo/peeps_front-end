@@ -61,7 +61,6 @@ const Login = () => {
               placeholder="password"
               value={password}
               onChange={e => onChangePassword(e)}
-              type="password"
             ></InputPw>
           </div>
         </form>
@@ -84,7 +83,7 @@ const Contents = styled.div`
   max-width: 425px;
   position: relative;
   background-color: #ffffff;
-  height: calc(100vh - 156px);
+  // border: 1px solid #000000;
 `;
 
 const Logo = styled.div`
@@ -109,27 +108,25 @@ const LoginBox = styled.div`
   border-radius: 10px;
 `;
 
-const InputId = styled.input`
+const InputId = styled.input.attrs(props => ({
+  type: 'text',
+  size: props.size || '1em'
+}))`
   box-sizing: border-box;
+  // display: flex;
   position: relative;
   color: #000000;
   font-size: 1em;
   border: 1px solid #eb8d00;
   border-radius: 10px;
-  margin: 1em;
-  padding: 1em;
+  margin: ${props => props.size};
+  padding: ${props => props.size};
 `;
 
-const InputPw = styled.input`
+const InputPw = styled(InputId).attrs({
+  type: 'password'
+})`
   border: 1px solid #eb8d00;
-  box-sizing: border-box;
-  position: relative;
-  color: #000000;
-  font-size: 1em;
-  border: 1px solid #eb8d00;
-  border-radius: 10px;
-  margin: 1em;
-  padding: 1em;
 `;
 
 const BtnLogin = styled.button`

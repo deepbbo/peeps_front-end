@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CommentTypes } from './types/types';
 import axios from 'axios';
+import IconMoreInfo from '../../images/more-info.svg';
 
 const Comment = ({
   comment_id,
@@ -11,17 +12,12 @@ const Comment = ({
   comment_content,
   created_at
 }: CommentTypes) => {
-  // if (user_img === null) {
-  //   user_img = `/icon/profile.svg`;
-  // }
-  // console.log('유저아디:', user_id);
+  const newDate = created_at.split('T')[0];
+  const newTime = created_at.split('T')[1].split('.')[0];
   const isMyComment = () => {
     const userToken = localStorage.getItem('userToken');
     const userInfo = userToken ? JSON.parse(userToken).userInfo : null;
-    // console.log('토큰 유저아이디:', userInfo.user_id);
-    // console.log('댓글 유저아이디', user_id);
-    // console.log('닉넴', user_nickname);
-    if (user_nickname === userInfo.user_nickname) {
+    if (user_id === userInfo.user_id) {
       return true;
     } else return false;
   };
@@ -50,16 +46,16 @@ const Comment = ({
       <CommentBox>
         <CommentHeader>
           <div>
-            <img alt="프로필사진" src={process.env.PUBLIC_URL + user_img}></img>
+            <ProfileImg
+              alt="프로필사진"
+              src={process.env.PUBLIC_URL + user_img}
+            />
             <span>{user_nickname}</span>
           </div>
           {isMyComment() && (
             <AsideLayer>
               <div onClick={togglePopUpDown}>
-                <img
-                  alt="더보기아이콘"
-                  src={`${process.env.PUBLIC_URL}/icon/more-info.svg`}
-                ></img>
+                <img alt="더보기아이콘" src={IconMoreInfo}></img>
               </div>
               {showPopup ? (
                 <PopUp>
@@ -74,7 +70,7 @@ const Comment = ({
           <p>{comment_content}</p>
         </CommentContent>
         <CommentFooter>
-          <p>{created_at}</p>
+          <p>{newDate + ' ' + newTime}</p>
         </CommentFooter>
       </CommentBox>
     </>
@@ -99,7 +95,11 @@ const CommentHeader = styled.div`
     align-items: center;
   }
 `;
-
+const ProfileImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 500px;
+`;
 const AsideLayer = styled.div`
   top: -3px;
   // right: -50px;
