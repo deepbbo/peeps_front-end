@@ -197,11 +197,3 @@ const ItemName = styled.p`
   font-size: 16px;
   text-decoration: none;
 `;
-
-// const Logout = styled.div`
-//   cursor: pointer;
-//   font-size: 16px;
-//   display: block;
-//   text-decoration: none;
-//   font-size: 19px;
-// `;

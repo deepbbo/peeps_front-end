@@ -52,7 +52,7 @@ const RegisterPet = (props: any) => {
           </div>
           <div>
             <LabelText>생년월일</LabelText>
-            <Date></Date>
+            <Date type="date"></Date>
           </div>
           <div>
             <LabelText>반려동물 소개</LabelText>
@@ -113,10 +113,7 @@ const LabelText = styled.span`
   text-align: center;
 `;
 
-const Input = styled.input.attrs(props => ({
-  type: 'text',
-  size: props.size || '1em'
-}))`
+const Input = styled.input`
   box-sizing: border-box;
   position: relative;
   color: #000000;
@@ -141,10 +138,7 @@ const Select = styled.select`
   padding: 10px;
 `;
 
-const Date = styled.input.attrs(props => ({
-  type: 'date',
-  size: props.size || '1em'
-}))`
+const Date = styled.input`
   box-sizing: border-box;
   position: relative;
   color: #000000;

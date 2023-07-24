@@ -17,7 +17,7 @@ const Comment = ({
   const isMyComment = () => {
     const userToken = localStorage.getItem('userToken');
     const userInfo = userToken ? JSON.parse(userToken).userInfo : null;
-    if (user_nickname === userInfo.user_nickname) {
+    if (user_id === userInfo.user_id) {
       return true;
     } else return false;
   };
