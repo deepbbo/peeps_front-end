@@ -52,9 +52,7 @@ const Login = () => {
             <InputId
               placeholder="id"
               value={id}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChangeId(e)
-              }
+              onChange={e => onChangeId(e)}
             ></InputId>
           </div>
           <div>
@@ -62,9 +60,7 @@ const Login = () => {
             <InputPw
               placeholder="password"
               value={password}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                onChangePassword(e)
-              }
+              onChange={e => onChangePassword(e)}
             ></InputPw>
           </div>
         </form>
