@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import location from './location.json';
 import axios from 'axios';
@@ -111,9 +111,6 @@ const RegisterForm = (props: any) => {
         formData.append('user_nickname', nickname);
         formData.append('user_location', user_location);
         formData.append('post_img', profileImg[0]);
-        for (let values of formData.values()) {
-          console.log(values); // 이미지 객체의 정보
-        }
         const response = await axios.post(registerUrl, formData);
         console.log(response);
         // 회원가입 성공 또는 실패에 따른 처리
@@ -204,6 +201,7 @@ const RegisterForm = (props: any) => {
                 name="password"
                 value={password}
                 onChange={onChangePassword}
+                type="password"
               />
             </InputArea>
             <p className="message"> {passwordMessage} </p>
@@ -216,6 +214,7 @@ const RegisterForm = (props: any) => {
                 name="passwordConfirm"
                 value={passwordConfirm}
                 onChange={onChangePasswordConfirm}
+                type="password"
               />
             </InputArea>
             <p className="message"> {passwordConfirmMessage} </p>
@@ -320,10 +319,7 @@ const InputArea = styled.div`
   align-items: center;
 `;
 
-const InputValue = styled.input.attrs(props => ({
-  type: 'text',
-  size: props.size || '16px'
-}))`
+const InputValue = styled.input`
   box-sizing: border-box;
   position: relative;
   color: #000000;
@@ -332,13 +328,20 @@ const InputValue = styled.input.attrs(props => ({
   border-radius: 10px;
   margin: 10px auto;
   width: 100%;
-  padding: ${props => props.size};
+  padding: 1em;
 `;
 
-const InputPw = styled(InputValue).attrs({
-  type: 'password'
-})`
+const InputPw = styled.input`
   border: 1px solid #eb8d00;
+  box-sizing: border-box;
+  position: relative;
+  color: #000000;
+  font-size: 1em;
+  border: 1px solid #eb8d00;
+  border-radius: 10px;
+  margin: 10px auto;
+  width: 100%;
+  padding: 1em;
 `;
 
 const UserImgInput = styled.input`

@@ -17,9 +17,11 @@ export default Register;
 const Contents = styled.div`
   min-width: 375px;
   max-width: 425px;
+  height: calc(100vh - 156px);
   position: relative;
   background-color: #ffffff;
   padding: 20px;
+  overflow: scroll;
 
   & > div {
     display: flex;
