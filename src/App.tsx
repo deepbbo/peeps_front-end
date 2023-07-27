@@ -1,8 +1,8 @@
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import MapContainer from '../src/components/map/MapContainer';
-import Header from './components/Header';
-import Navigation from './components/Navigation';
+import Header from './components/common/Header';
+import Navigation from './components/common/Navigation';
 import PostPage from './components/posts/PostPage';
 import PostForm from './components/posts/PostForm';
 import ReviewList from './components/review/ReviewList';
@@ -51,4 +51,5 @@ const AppContainer = styled.div`
   max-width: 425px;
   overflow: hidden;
   background-color: #fff;
+  border: 1px solid #d1d1d1;
 `;

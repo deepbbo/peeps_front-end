@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import iconWrite from '../../images/icon-write-review.svg';
@@ -7,7 +7,7 @@ import iconProfileEmpty from '../../images/icon-user-profile-empty.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-import { ReviewType } from './ReviewType';
+import { ReviewType } from './types/ReviewType';
 
 const ReviewList = () => {
   const { location_id } = useParams();
