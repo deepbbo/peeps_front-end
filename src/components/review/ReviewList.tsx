@@ -82,7 +82,7 @@ const ReviewList = () => {
                     </div>
                   </div>
                   <div className="review-content">
-                    <Link to={`/api/v1/review/${review.review_id}`}>
+                    <Link to={`/review/${review.review_id}`}>
                       <div className="review-content-pic">
                         {review.review_img && (
                           <img src={review.review_img} alt="리뷰 이미지" />
@@ -101,7 +101,7 @@ const ReviewList = () => {
 
       <WriteButton
         to={{
-          pathname: '/api/v1/review',
+          pathname: '/review',
           search: `?location_id=${location_id}`
         }}
       >

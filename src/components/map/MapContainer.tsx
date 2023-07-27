@@ -273,7 +273,7 @@ const MapContainer: React.FC = () => {
       dispatch(changePlace({ place_name, category_name, address_name, phone })); // changePlace 액션 디스패치하여 Redux의 place 값을 저장
     }
 
-    navigate(`/api/v1/review/location/${selectedPlace.id}`);
+    navigate(`/review/location/${selectedPlace.id}`);
   };
 
   return (

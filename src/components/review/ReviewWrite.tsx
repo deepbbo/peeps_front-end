@@ -65,7 +65,7 @@ const ReviewWrite = () => {
 
     try {
       await axios.post(`http://localhost:5500/api/v1/review`, formData);
-      navigate(`/api/v1/review/location/${location_id}`);
+      navigate(`/review/location/${location_id}`);
     } catch (error) {
       console.error(error);
     }

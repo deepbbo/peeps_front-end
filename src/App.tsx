@@ -23,11 +23,11 @@ const App = () => {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/register/pet" element={<RegisterPet />}></Route>
           <Route
-            path="/api/v1/review/location/:location_id"
+            path="/review/location/:location_id"
             element={<ReviewList />}
           />
-          <Route path="/api/v1/review" element={<ReviewWrite />} />
-          <Route path="/api/v1/review/:review_id" element={<ReviewDetail />} />
+          <Route path="/review/:review_id" element={<ReviewDetail />} />
+          <Route path="/review" element={<ReviewWrite />} />
           <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
