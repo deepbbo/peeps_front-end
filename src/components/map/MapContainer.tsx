@@ -286,6 +286,8 @@ const MapContainer: React.FC = () => {
       <Buttons className="buttons">
         <button onClick={() => handleSearch('동물병원')}>동물병원</button>
         <button onClick={() => handleSearch('공원')}>공원</button>
+        <button onClick={() => handleSearch('')}>동물가게</button>
+        {/* <button onClick={() => handleSearch('공원')}></button> */}
       </Buttons>
 
       <MyLocation onClick={handleReturnToCurrentLocation}>
@@ -296,8 +298,10 @@ const MapContainer: React.FC = () => {
         <Modal onClick={handleMapClick}>
           <div className="modal-content" ref={modalRef}>
             <h2>{selectedPlace.place_name}</h2>
-            <p>주소: {selectedPlace.address_name}</p>
-            <p>카테고리: {selectedPlace.category_name.split('>').at(-1)}</p>
+            <div className="modal-sub_info">
+              <p>카테고리: {selectedPlace.category_name.split('>').at(-1)}</p>
+              <p>주소: {selectedPlace.address_name}</p>
+            </div>
             <p>
               {selectedPlace.phone ? `전화번호: ${selectedPlace.phone}` : null}
             </p>
@@ -353,23 +357,29 @@ const MyLocation = style.button`
 
 const Modal = style.div`
   width: 90%;
-  height: 20%;
+  height: 15%;
   position: absolute;
 
-  
   bottom: 0;
   left: 5%;
-  z-index:1;
+  z-index: 1;
   & .modal-content {
     background-color: white;
     padding: 20px;
     border-radius: 20px;
+    border: 3px solid #eb8d00; 
     height: 100%;
 
+    & .modal-sub_info {
+      margin-top: 25px;
+    }
+
     p {
-      margin-top: 15px;
+      margin-top: 12px;
     }
   }
+
+  
 
   &:hover {
     cursor: pointer;
