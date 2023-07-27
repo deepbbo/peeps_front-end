@@ -1,5 +1,5 @@
 #root {
-  background-color: rgb(236, 241, 245);
+  background-color: #fffff7;
 }
 .wrap {
   width: 100%;
@@ -9,14 +9,57 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background-color: aliceblue;
+  background-color: #fffff7;
 }
 
 .home-left-area {
   width: 100%;
   max-width: 512px;
-  height: 380px;
-  background-color: rgb(221, 235, 247);
+  height: 540px;
+}
+
+.title {
+  padding: 0 20px;
+}
+
+.title img {
+  width: 340px;
+  height: auto;
+  margin-left: -20px;
+}
+
+.title p {
+  font-size: 20px;
+  font-weight: 600;
+  color: #8d5d26;
+}
+
+.feature {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  padding: 40px 20px 0;
+}
+
+.feature li {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 160px;
+  background-color: rgba(250, 235, 215, 0.26);
+  border-radius: 14px;
+  box-shadow: 2px 2px 8px 0px rgba(73, 33, 0, 0.116);
+}
+
+.feature li img {
+  width: 50px;
+  height: auto;
+}
+
+.feature li p {
+  padding-top: 16px;
+  color: #0f0f0f;
 }
 
 /* media query */
