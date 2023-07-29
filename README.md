@@ -1,7 +1,5 @@
 ## 🐶 핍스 Peeps
 
----
-
 ![localhost_3000_map (1).png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4542e096-4e9b-4571-b380-36928507fb55/localhost_3000_map_(1).png)
 
 ## 서비스 소개
