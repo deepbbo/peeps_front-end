@@ -14,7 +14,7 @@ const ReviewWrite = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
-  const location_id = searchParams.get('location_id');
+  const locationId = searchParams.get('location_id');
 
   // 리뷰 텍스트 업로드
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -34,10 +34,9 @@ const ReviewWrite = () => {
   };
 
   // 이미지 삭제
-  // const handleFileDelete = () => {
-  //   URL.revokeObjectURL(imageData);
-  //   setImageData('');
-  // };
+  const handleFileDelete = () => {
+    setImageData([]);
+  };
 
   const handleStarRating = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setStarData(e.target.value);
@@ -54,18 +53,18 @@ const ReviewWrite = () => {
 
     const user_id = 'user1';
 
-    const locationId = location_id ?? '';
-
     const formData = new FormData();
     formData.append('user_id', user_id);
-    formData.append('location_id', locationId);
+    if (locationId !== null) {
+      formData.append('location_id', locationId);
+    }
     formData.append('star_rating', starData);
     formData.append('review_content', textData);
     formData.append('post_img', imageData[0]);
 
     try {
       await axios.post(`http://localhost:5500/api/v1/review`, formData);
-      navigate(`/review/location/${location_id}`);
+      navigate(`/review/location/${locationId}`);
     } catch (error) {
       console.error(error);
     }
@@ -119,6 +118,7 @@ const ReviewWrite = () => {
                 return (
                   <div className="image-preview" key={image.name + image.size}>
                     <img src={URL.createObjectURL(image)} alt={image.name} />
+                    <button onClick={handleFileDelete}>❌</button>
                   </div>
                 );
               })
@@ -234,10 +234,25 @@ const WriteContent = styled.div`
     }
 
     .image-preview {
+      position: relative;
+      overflow: hidden;
+
       img {
         width: 100%;
         height: 100%;
         object-fit: contain;
+      }
+
+      button {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+
+        display: block;
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 4px;
+        background-color: #fff;
       }
     }
 
