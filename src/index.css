@@ -25,10 +25,10 @@
 .title img {
   width: 340px;
   height: auto;
-  margin-left: -20px;
 }
 
 .title p {
+  padding-top: 16px;
   font-size: 20px;
   font-weight: 600;
   color: #8d5d26;
@@ -53,7 +53,7 @@
 }
 
 .feature li img {
-  width: 50px;
+  width: 60px;
   height: auto;
 }
 
