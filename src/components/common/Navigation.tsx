@@ -74,6 +74,7 @@ const Nav = styled.nav`
   border-top: 1px solid #bbbbbb;
   padding: 8px 15px 30px 15px;
   box-sizing: border-box;
+  z-index: 99;
 `;
 
 const NavList = styled.ul`
