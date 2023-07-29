@@ -11,9 +11,9 @@
 
 ## 🛠️기술 스택 및 툴
 
-**Front-end: React**, JavaScript(ES6), TypeScript, Redux-toolkit, styled-components, JWT
-**Back-end**: Node.js, Express.js, MySQL, JWT, AWS
-**Tools**: GitHub, Notion, Figma, Postman, Discord
+- **Front-end: React**, JavaScript(ES6), TypeScript, Redux-toolkit, styled-components, JWT
+- **Back-end**: Node.js, Express.js, MySQL, JWT, AWS
+- **Tools**: GitHub, Notion, Figma, Postman, Discord
 
 ## 🙋‍♀️프로젝트 팀원 소개 및 역할
 
