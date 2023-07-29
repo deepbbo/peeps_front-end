@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-import { ReviewType } from './ReviewType';
+import { ReviewType } from './types/ReviewType';
 import iconProfileEmpty from '../../images/icon-user-profile-empty.svg';
 
 const ReviewDetail = () => {
@@ -39,7 +39,6 @@ const ReviewDetail = () => {
       <DetailContent>
         <h1>리뷰 상세</h1>
         <div className="review-box" key={reviewDetail.review_id}>
-          {/* 중복 컴포넌트 */}
           <div className="review-user">
             <div className="user-content">
               <div className="user-content-profile">
@@ -60,9 +59,11 @@ const ReviewDetail = () => {
           </div>
           <div className="review-content">
             <p className="review-content-text">{reviewDetail.review_content}</p>
-            <div className="review-content-pic">
-              <img src={reviewDetail.review_img} alt="리뷰 이미지" />
-            </div>
+            {reviewDetail.review_img && (
+              <div className="review-content-pic">
+                <img src={reviewDetail.review_img} alt="리뷰 이미지" />
+              </div>
+            )}
           </div>
         </div>
       </DetailContent>

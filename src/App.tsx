@@ -1,8 +1,8 @@
 import { Routes, BrowserRouter as Router, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import MapContainer from '../src/components/map/MapContainer';
-import Header from './components/Header';
-import Navigation from './components/Navigation';
+import Header from './components/common/Header';
+import Navigation from './components/common/Navigation';
 import PostPage from './components/posts/PostPage';
 import PostForm from './components/posts/PostForm';
 import ReviewList from './components/review/ReviewList';
@@ -23,11 +23,11 @@ const App = () => {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/register/pet" element={<RegisterPet />}></Route>
           <Route
-            path="/api/v1/review/location/:location_id"
+            path="/review/location/:location_id"
             element={<ReviewList />}
           />
-          <Route path="/api/v1/review" element={<ReviewWrite />} />
-          <Route path="/api/v1/review/:review_id" element={<ReviewDetail />} />
+          <Route path="/review/:review_id" element={<ReviewDetail />} />
+          <Route path="/review" element={<ReviewWrite />} />
           <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
@@ -51,4 +51,5 @@ const AppContainer = styled.div`
   max-width: 425px;
   overflow: hidden;
   background-color: #fff;
+  border: 1px solid #d1d1d1;
 `;

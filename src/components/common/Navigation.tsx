@@ -1,15 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import iconNav1 from '../images/icon-nav1.svg';
-import iconNav2 from '../images/icon-nav2.svg';
-import iconNav3 from '../images/icon-nav3.svg';
-import iconNav4 from '../images/icon-nav4.svg';
-import iconNav1Active from '../images/icon-nav1-active.svg';
-import iconNav2Active from '../images/icon-nav2-active.svg';
-import iconNav3Active from '../images/icon-nav3-active.svg';
-import iconNav4Active from '../images/icon-nav4-active.svg';
+import iconNav1 from '../../images/icon-nav1.svg';
+import iconNav2 from '../../images/icon-nav2.svg';
+import iconNav3 from '../../images/icon-nav3.svg';
+import iconNav4 from '../../images/icon-nav4.svg';
+import iconNav1Active from '../../images/icon-nav1-active.svg';
+import iconNav2Active from '../../images/icon-nav2-active.svg';
+import iconNav3Active from '../../images/icon-nav3-active.svg';
+import iconNav4Active from '../../images/icon-nav4-active.svg';
 
 const Navigation = () => {
   const [activeIndex, setActiveIndex] = useState(0);
