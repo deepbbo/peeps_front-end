@@ -1,46 +1,50 @@
-# Getting Started with Create React App
+## 🐶 핍스 Peeps
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+![localhost_3000_map (1).png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4542e096-4e9b-4571-b380-36928507fb55/localhost_3000_map_(1).png)
 
-In the project directory, you can run:
+## 서비스 소개
 
-### `yarn start`
+핍스는 반려동물을 사랑하는 사용자들을 위해 편의성을 제공하는 서비스입니다. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. 맵 기능을 통해 주변 동물병원, 공원을 쉽게 찾아볼 수 있습니다.
+2. 장소별로 리뷰를 조회하거나 등록할 수 있습니다. 
+3. 반려동물과 관련하여 다양한 정보와 경험을 공유할 수 있는 게시판을 제공합니다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## 기술 스택 및 툴
 
-### `yarn test`
+| Front-end | React, JavaScript(ES6), TypeScript, Redux-toolkit, styled-components, JWT |
+| --- | --- |
+| Back-end | Node.js, Express.js, MySQL, JWT, AWS |
+| Tools | GitHub, Notion, Figma, Postman, Discord |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 프로젝트 팀원 소개 및 역할
 
-### `yarn build`
+| 이름 | 담당 포지션 | 담당 기능  |
+| --- | --- | --- |
+| 김윤지 | 프론트엔드 | 장소별 리뷰 전체 조회, 리뷰 상세 조회, 장소별 리뷰 등록  |
+| 손찬규 | 프론트엔드 | 카카오맵 api로 지도맵 구현, 키워드로 장소 조회   |
+| 임지성 | 프론트엔드 | 카테고리별 게시글 전체 조회, 게시글 상세 조회, 게시글 등록 |
+| 이채연 | 프론트엔드 | 로그인, 회원가입, 게시글 상세 조회, 댓글 등록 |
+| 박지원 | 백엔드 | 로그인, 회원가입, 게시글, 댓글 api 작성 |
+| 경수빈  | 백엔드  | 로그인, 회원가입, 관리자, 펫, ,리뷰 api 작성  |
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 개발 기간 & 일정
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 1차 : 2023.05.08 ~ 2023.05.26
+- 리팩토링 : 2023.07.24 ~ 2023.07.29
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## API 명세서
 
-### `yarn eject`
+https://documenter.getpostman.com/view/27023528/2s93m33P3y
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 구현 기능
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+| 페이지 | 시연 영상 | 부가 설명 |
+| --- | --- | --- |
+| 지도 |  |  |
+| 장소별 리뷰 |  |  |
+| 커뮤니티 |  |  |
+| 로그인  |  |  |
+| 회원가입  |  |  |
