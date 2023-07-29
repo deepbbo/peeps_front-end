@@ -4,13 +4,17 @@ import './index.css';
 import App from './App';
 import ResetStyle from './ResetStyle';
 import reportWebVitals from './reportWebVitals';
-import logo from './images/logo1.svg';
+import logo from './images/peeps-logo.png';
 import feature1 from './images/icon-map.png';
 import feature2 from './images/icon-star.png';
 import feature3 from './images/icon-chat.png';
 import feature4 from './images/icon-pawprint.png';
 import store from './redux/store';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
+
+export let persistor = persistStore(store);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -44,7 +48,9 @@ root.render(
         </ul>
       </div>
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </div>
   </React.StrictMode>
