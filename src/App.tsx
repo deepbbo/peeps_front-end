@@ -19,7 +19,7 @@ const App = () => {
       <Header />
       <Router>
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
+          <Route path="/map" element={<MapContainer />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route path="/register/pet" element={<RegisterPet />}></Route>
           <Route
@@ -28,13 +28,12 @@ const App = () => {
           />
           <Route path="/review/:review_id" element={<ReviewDetail />} />
           <Route path="/review" element={<ReviewWrite />} />
-          <Route path="/board" />
           <Route path="/chat" />
           <Route path="/my" />
           <Route path="/posts/form" element={<PostForm />} />
           <Route path="/posts" element={<PostPage />} />
           <Route path="/post/:post_id" element={<PostDetail />} />
-          <Route path="/" element={<MapContainer />}></Route>
+          <Route path="/" element={<Login />}></Route>
         </Routes>
         <Navigation />
       </Router>
