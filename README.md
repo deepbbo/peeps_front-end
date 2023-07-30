@@ -15,7 +15,7 @@
 
 ## 🛠️기술 스택 및 툴
 
-- **Front-end: React**, JavaScript(ES6), TypeScript, Redux-toolkit, styled-components, JWT
+- **Front-end**: React, JavaScript(ES6), TypeScript, Redux-toolkit, styled-components, JWT
 - **Back-end**: Node.js, Express.js, MySQL, JWT, AWS
 - **Tools**: GitHub, Notion, Figma, Postman, Discord
 <br />
