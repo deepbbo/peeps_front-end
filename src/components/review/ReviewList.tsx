@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import iconWrite from '../images/icon-write-review.svg';
-import iconEmpty from '../images/icon-review-empty.svg';
-import iconProfileEmpty from '../images/icon-user-profile-empty.svg';
+import iconWrite from '../../images/icon-write-review.svg';
+import iconEmpty from '../../images/icon-review-empty.svg';
+import iconProfileEmpty from '../../images/icon-user-profile-empty.svg';
 import { Link, useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-import { ReviewType } from './ReviewType';
+import { ReviewType } from './types/ReviewType';
 
 const ReviewList = () => {
   const { location_id } = useParams();
   const [reviewData, setReviewData] = useState<ReviewType[]>([]);
   const [loading, setLoading] = useState(true);
+  const reviewURL = `http://localhost:5500/api/v1/review/location/${location_id}`;
 
   useEffect(() => {
     (async () => {
-      // const a = '5678';
-      const reviewURL = `http://localhost:5500/api/v1/review/location/${location_id}`;
       try {
         const response = await axios.get(reviewURL);
-        setReviewData(response.data.data);
+        const data = response.data.data;
+        setReviewData([...data]);
         setLoading(false);
       } catch (error) {
         console.error(error);
       }
     })();
-  }, []);
-  console.log(reviewData);
+  }, [reviewURL]);
 
   const getDate = (date: string) => {
     const newDate: string = date.split('T')[0];
@@ -83,7 +82,7 @@ const ReviewList = () => {
                     </div>
                   </div>
                   <div className="review-content">
-                    <Link to={`/api/v1/review/${review.review_id}`}>
+                    <Link to={`/review/${review.review_id}`}>
                       <div className="review-content-pic">
                         {review.review_img && (
                           <img src={review.review_img} alt="리뷰 이미지" />
@@ -102,7 +101,7 @@ const ReviewList = () => {
 
       <WriteButton
         to={{
-          pathname: '/api/v1/review',
+          pathname: '/review',
           search: `?location_id=${location_id}`
         }}
       >

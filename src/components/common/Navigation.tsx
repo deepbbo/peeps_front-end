@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-import iconNav1 from '../images/icon-nav1.svg';
-import iconNav2 from '../images/icon-nav2.svg';
-import iconNav3 from '../images/icon-nav3.svg';
-import iconNav4 from '../images/icon-nav4.svg';
-import iconNav1Active from '../images/icon-nav1-active.svg';
-import iconNav2Active from '../images/icon-nav2-active.svg';
-import iconNav3Active from '../images/icon-nav3-active.svg';
-import iconNav4Active from '../images/icon-nav4-active.svg';
+import iconNav1 from '../../images/icon-nav1.svg';
+import iconNav2 from '../../images/icon-nav2.svg';
+import iconNav3 from '../../images/icon-nav3.svg';
+import iconNav4 from '../../images/icon-nav4.svg';
+import iconNav1Active from '../../images/icon-nav1-active.svg';
+import iconNav2Active from '../../images/icon-nav2-active.svg';
+import iconNav3Active from '../../images/icon-nav3-active.svg';
+import iconNav4Active from '../../images/icon-nav4-active.svg';
 
 const Navigation = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState<null | number>(null);
 
   const handleNavClick = (index: number) => {
     setActiveIndex(index);
@@ -22,7 +22,7 @@ const Navigation = () => {
     <Nav>
       <NavList>
         <li>
-          <NavLink to="/api/v1/map" onClick={() => handleNavClick(0)}>
+          <NavLink to="/map" onClick={() => handleNavClick(0)}>
             <img
               src={activeIndex === 0 ? iconNav1Active : iconNav1}
               alt="지도"
@@ -31,7 +31,7 @@ const Navigation = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/board" onClick={() => handleNavClick(1)}>
+          <NavLink to="/posts" onClick={() => handleNavClick(1)}>
             <img
               src={activeIndex === 1 ? iconNav2Active : iconNav2}
               alt="커뮤니티"
@@ -74,6 +74,7 @@ const Nav = styled.nav`
   border-top: 1px solid #bbbbbb;
   padding: 8px 15px 30px 15px;
   box-sizing: border-box;
+  z-index: 99;
 `;
 
 const NavList = styled.ul`

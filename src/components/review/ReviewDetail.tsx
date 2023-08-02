@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ReviewPlace from './ReviewPlace';
 import StarRating from './ReviewStarRating';
-import { ReviewType } from './ReviewType';
+import { ReviewType } from './types/ReviewType';
+import iconProfileEmpty from '../../images/icon-user-profile-empty.svg';
 
 const ReviewDetail = () => {
   const { review_id } = useParams();
@@ -38,11 +39,14 @@ const ReviewDetail = () => {
       <DetailContent>
         <h1>리뷰 상세</h1>
         <div className="review-box" key={reviewDetail.review_id}>
-          {/* 중복 컴포넌트 */}
           <div className="review-user">
             <div className="user-content">
               <div className="user-content-profile">
-                <img src={reviewDetail.user_pic} alt="유저 프로필"></img>
+                {reviewDetail.user_pic ? (
+                  <img src={reviewDetail.user_pic} alt="유저 프로필"></img>
+                ) : (
+                  <img src={iconProfileEmpty} alt="유저 프로필"></img>
+                )}
               </div>
               <div className="user-content-info">
                 <p>{reviewDetail.user_nickname}</p>
@@ -55,9 +59,11 @@ const ReviewDetail = () => {
           </div>
           <div className="review-content">
             <p className="review-content-text">{reviewDetail.review_content}</p>
-            <div className="review-content-pic">
-              <img src={reviewDetail.review_img} alt="리뷰 이미지" />
-            </div>
+            {reviewDetail.review_img && (
+              <div className="review-content-pic">
+                <img src={reviewDetail.review_img} alt="리뷰 이미지" />
+              </div>
+            )}
           </div>
         </div>
       </DetailContent>
@@ -145,26 +151,5 @@ const DetailContent = styled.div`
         width: 100%;
       }
     }
-  }
-`;
-
-const WriteButton = styled(Link)`
-  position: absolute;
-  right: 15px;
-  bottom: 15px;
-  width: 44px;
-  height: 44px;
-  border: none;
-  background: #eb8d00;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.25);
-  border-radius: 50%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  img {
-    width: 24px;
-    height: 24px;
   }
 `;
