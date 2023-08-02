@@ -49,7 +49,7 @@ https://documenter.getpostman.com/view/27023528/2s93m33P3y
 
 ## 💻구현 기능
 ### 지도
-<img src='https://github.com/deepbbo/peeps_front-end/assets/60742666/dbcc73bc-a387-4b56-902b-6f2596e0a631' width='300'>
+<img src='https://github.com/deepbbo/peeps_front-end/assets/60742666/dbcc73bc-a387-4b56-902b-6f2596e0a631' width='600'>
 <br />
 
 - 카카오맵 지도 api: 외부 API를 사용해 지도 기능을 구현하였습니다.
